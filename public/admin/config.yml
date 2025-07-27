@@ -1,0 +1,28 @@
+backend:
+  name: github
+  repo: your-github-username/your-repo-name  # ← 改成你的 GitHub 仓库路径
+  branch: main
+
+media_folder: "public/images/uploads"       # 图片保存到这里
+public_folder: "/images/uploads"
+
+locale: 'zh'  # 中文界面（Decap 支持）
+
+collections:
+  - name: "pages"
+    label: "页面"
+    folder: "src/pages"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "标题", name: "title", widget: "string" }
+      - { label: "正文", name: "body", widget: "markdown" }
+
+  - name: "blog"
+    label: "博客文章"
+    folder: "src/pages/blog"
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    fields:
+      - { label: "标题", name: "title", widget: "string" }
+      - { label: "正文", name: "body", widget: "markdown" }
