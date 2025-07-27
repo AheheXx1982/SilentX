@@ -1,0 +1,115 @@
+---
+import { HomeSiderType, HomeSiderSegmentType } from '@constants/enum';
+import { cn } from '@lib/utils';
+import HomeInfo from './HomeInfo.astro';
+import { TableOfContents } from './TableOfContents';
+import HomeSiderSegmented from '@components/ui/segmented/HomeSiderSegmented';
+
+interface Props {
+  type?: HomeSiderType;
+  className?: string;
+  isDrawer?: boolean;
+}
+
+const { type = HomeSiderType.HOME, className, isDrawer = false } = Astro.props;
+const defaultSegmentType = type === HomeSiderType.POST ? HomeSiderSegmentType.DIRECTORY : HomeSiderSegmentType.INFO;
+---
+
+<div
+  class={cn('page-home-sider sticky top-0 flex max-w-[16rem] min-w-[16rem] flex-col tablet:hidden items-center p-4', className)}
+  transition:name={isDrawer ? 'page-home-sider-drawer' : 'page-home-sider'}
+>
+  {
+    type === HomeSiderType.POST && (
+      <HomeSiderSegmented
+        client:load
+        className="mb-5 flex w-full justify-between text-sm/6"
+        itemClass="grow"
+        options={[
+          { label: '站点概览', value: HomeSiderSegmentType.INFO },
+          { label: '文章目录', value: HomeSiderSegmentType.DIRECTORY },
+        ]}
+        defaultValue={defaultSegmentType}
+        id="inner-home-sider"
+      />
+    )
+  }
+
+  <sider-content class="w-full overflow-auto" data-type={type} data-default-type={defaultSegmentType}>
+    <div slot="info">
+      <HomeInfo />
+    </div>
+    <div slot="directory">
+      {type === HomeSiderType.POST && <TableOfContents client:load />}
+    </div>
+  </sider-content>
+</div>
+
+<script>
+  import { HomeSiderType, HomeSiderSegmentType } from '@constants/enum';
+  import { homeSiderSegmentType } from '@store/app';
+
+  // 定义SiderContent自定义元素
+  class SiderContent extends HTMLElement {
+    // 私有属性定义
+    private infoContent: HTMLElement | null = null;
+    private directoryContent: HTMLElement | null = null;
+    private pageType: string | null = null;
+    private defaultType: string | null = null;
+
+    constructor() {
+      super();
+
+      // 保存最初的内容片段
+      this.infoContent = this.querySelector('[slot="info"]');
+      this.directoryContent = this.querySelector('[slot="directory"]');
+
+      // 从HTML属性中获取当前页面类型和默认分段类型
+      this.pageType = this.getAttribute('data-type');
+      this.defaultType = this.getAttribute('data-default-type');
+
+      // 初始化
+      this.init();
+    }
+
+    init() {
+      // 确保DOM已准备好
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', () => this.initContent());
+      } else {
+        this.initContent();
+      }
+    }
+
+    initContent() {
+      // 首页直接显示HomeInfo
+      if (this.pageType === HomeSiderType.HOME) {
+        this.showContent(HomeSiderSegmentType.INFO);
+      } else {
+        // 设置初始值
+        const initialType = (this.defaultType as HomeSiderSegmentType) || HomeSiderSegmentType.INFO;
+        homeSiderSegmentType.set(initialType);
+        this.showContent(initialType);
+
+        // 监听状态变化
+        homeSiderSegmentType.listen((value) => {
+          this.showContent(value);
+        });
+      }
+    }
+
+    showContent(type: HomeSiderSegmentType) {
+      // 根据类型显示对应内容
+      if (type === HomeSiderSegmentType.DIRECTORY) {
+        this.infoContent?.classList.add('hidden');
+        this.directoryContent?.classList.remove('hidden');
+      } else {
+        this.infoContent?.classList.remove('hidden');
+        this.directoryContent?.classList.add('hidden');
+      }
+    }
+  }
+
+  // 注册自定义元素
+  customElements.define('sider-content', SiderContent);
+</script>

@@ -1,0 +1,31 @@
+---
+import ButtonLink from '@components/control/ButtonLink.astro';
+import HomeSider from '@components/layout/HomeSider.astro';
+import PostList from '@components/post/PostList.astro';
+import Cover from '@components/ui/cover/Cover.astro';
+import { HomeSiderType } from '@constants/enum';
+import { seoConfig } from '@constants/site-config';
+import Layout from '@layouts/Layout.astro';
+import TwoColumnLayout from '@layouts/TwoColumnLayout.astro';
+import { getSortedPosts } from '@lib/content';
+import { Icon } from 'astro-icon/components';
+
+const postCollections = await getSortedPosts();
+const posts = postCollections.slice(0, 5);
+---
+
+<Layout title={seoConfig.title}>
+  <TwoColumnLayout>
+    <Cover slot="cover" />
+    <HomeSider slot="sider" />
+    <div class="shadow-box bg-gradient-start tablet:shadow-none flex flex-col gap-4 overflow-hidden p-4 pt-8 md:px-1 md:py-2">
+      <PostList posts={posts} showPaginator={false} />
+    </div>
+    <div class="flex w-full flex-col items-center">
+      <ButtonLink variant="gradient-shoka" url="/posts" size="lg" label="所有文章" className="mt-10 items-center">
+        所有文章
+        <Icon name="gg:format-justify" />
+      </ButtonLink>
+    </div>
+  </TwoColumnLayout>
+</Layout>
