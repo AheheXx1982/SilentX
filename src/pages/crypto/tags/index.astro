@@ -1,0 +1,55 @@
+---
+import HomeSider from '@components/layout/HomeSider.astro';
+import Cover from '@components/ui/cover/Cover.astro';
+import { siteConfig } from '@constants/site-config';
+import Layout from '@layouts/Layout.astro';
+import TwoColumnLayout from '@layouts/TwoColumnLayout.astro';
+import { getAllCryptoTags, getSortedCryptos } from '@lib/content';
+
+const TAG_COLORS = [
+  'from-cyan-400/10 to-blue-300/10 hover:from-cyan-400/80 hover:to-blue-300/80 text-cyan-400/70 hover:text-cyan-50',
+  'from-yellow-300/10 to-orange-200/10 hover:from-yellow-300/80 hover:to-orange-200/80 text-yellow-400/70 hover:text-yellow-50',
+  'from-indigo-400/10 to-purple-300/10 hover:from-indigo-400/80 hover:to-purple-300/80 text-indigo-400/70 hover:text-indigo-50',
+  'from-teal-400/10 to-green-300/10 hover:from-teal-400/80 hover:to-green-300/80 text-teal-400/70 hover:text-teal-50',
+];
+
+const cryptos = await getSortedCryptos();
+const tags = getAllCryptoTags(cryptos);
+const sortedTags = Object.entries(tags)
+  .sort(([, a], [, b]) => b - a)
+  .map(([tag, count]) => ({ tag, count }));
+---
+
+<Layout title={`加密货币标签 | ${siteConfig.title}`} description="所有加密货币分析标签">
+  <TwoColumnLayout>
+    <Cover slot="cover" title="加密货币标签" />
+    <HomeSider slot="sider" />
+    <div class="shadow-box bg-gradient-start mx-0 flex w-full flex-col px-6 py-4 md:px-3 md:py-2">
+      <h2 class="shoka-decoration-circle group relative h-19 px-7.5 py-5 text-2xl/9 font-bold">
+        <a href="/crypto" class="dashed-border text-muted-foreground group-hover:border-blue group-hover:text-blue border-b"
+          >加密货币分析</a
+        >
+        <span class="text-muted-foreground text-lg"> / </span>
+        目前共计 {sortedTags.length} 个标签
+      </h2>
+      <div class="flex flex-wrap gap-3 p-4">
+        {
+          sortedTags.map(({ tag, count }, index) => (
+            <div class="group relative">
+              {/* 防止闪烁 */}
+              <a
+                href={`/crypto/tags/${tag.replace(/\//g, '-')}`}
+                class={`group relative flex items-center rounded-lg bg-linear-to-r px-3 py-1.5 text-sm transition-all duration-300 group-hover:-translate-y-0.5 group-hover:shadow-lg ${
+                  TAG_COLORS[index % TAG_COLORS.length]
+                }`}
+              >
+                <span class="font-medium">{tag}</span>
+                <span class="ml-1.5 truncate rounded-full bg-white/10 px-1.5 text-xs">{count}</span>
+              </a>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </TwoColumnLayout>
+</Layout>
