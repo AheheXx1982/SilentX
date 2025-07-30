@@ -1,0 +1,157 @@
+---
+import HomeSider from '@components/layout/HomeSider.astro';
+import Cover from '@components/ui/cover/Cover.astro';
+import CustomContent from '@components/common/CustomContent.astro';
+import { HomeSiderType } from '@constants/enum';
+import { siteConfig } from '@constants/site-config';
+import Layout from '@layouts/Layout.astro';
+import TwoColumnLayout from '@layouts/TwoColumnLayout.astro';
+import { getCategoryArr, getSortedStocks, getCategoryLink } from '@lib/content';
+import { parseDate } from '@lib/datetime';
+import { Icon } from 'astro-icon/components';
+
+export async function getStaticPaths() {
+  const stockCollections = await getSortedStocks();
+
+  return stockCollections.map((stock) => {
+    const link = stock.data?.link ?? stock.slug;
+    return {
+      params: { slug: link },
+      props: { stock },
+    };
+  });
+}
+
+const { stock } = Astro.props;
+const { Content } = await stock.render();
+const { title, description, categories = [], tags = [], date, symbol, price, analysis, riskLevel } = stock?.data ?? {};
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: title,
+  description: description || stock.body?.slice(0, 100),
+  keywords: categories?.length ? tags.concat(categories[0]) : tags,
+  author: {
+    '@type': 'Person',
+    name: siteConfig.author ?? siteConfig.name,
+    url: Astro.site,
+  },
+  datePublished: parseDate(date, 'YYYY-MM-DD'),
+};
+
+const categoryArr = getCategoryArr(categories?.[0]);
+const categoryStr = categoryArr?.length ? ` | ${categoryArr.join(' / ')}` : '';
+
+// Generate breadcrumb data for categories
+const breadcrumbCategories = [];
+if (categoryArr?.length) {
+  for (let i = 0; i < categoryArr.length; i++) {
+    const partialCategories = categoryArr.slice(0, i + 1);
+    const link = await getCategoryLink(partialCategories);
+    breadcrumbCategories.push({
+      name: partialCategories[i],
+      link: `/stock/categories${link}`,
+    });
+  }
+}
+---
+
+<Layout
+  title={`${title}${categoryStr} | ${siteConfig.title}`}
+  description={description || stock.body?.slice(0, 100)}
+  meta={{
+    keywords: categories?.length ? tags.concat(categories[0]) : tags,
+    image: stock?.data?.cover,
+    schema: [jsonLd],
+  }}
+>
+  <TwoColumnLayout>
+    <Cover slot="cover" title={title} />
+    <HomeSider slot="sider" type={HomeSiderType.POST} />
+    <div class="bg-gradient-start mx-0 flex w-full flex-col px-6 py-4 md:px-3 md:py-2">
+      <!-- Stock Info Banner -->
+      <div
+        class="mb-6 rounded-lg bg-gradient-to-r from-green-50 to-blue-50 p-4 shadow-sm dark:from-green-900/20 dark:to-blue-900/20"
+      >
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-4">
+            <div>
+              <h3 class="text-lg font-semibold text-green-700 dark:text-green-300">{symbol}</h3>
+              {price && <p class="text-2xl font-bold text-gray-800 dark:text-gray-200">${price}</p>}
+            </div>
+            {
+              analysis && (
+                <div
+                  class={`rounded-full px-3 py-1 text-sm font-medium ${
+                    analysis === 'buy'
+                      ? 'bg-green-100 text-green-800 dark:bg-green-900/50 dark:text-green-300'
+                      : analysis === 'sell'
+                        ? 'bg-red-100 text-red-800 dark:bg-red-900/50 dark:text-red-300'
+                        : 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/50 dark:text-yellow-300'
+                  }`}
+                >
+                  {analysis === 'buy' ? '买入' : analysis === 'sell' ? '卖出' : '持有'}
+                </div>
+              )
+            }
+            {
+              riskLevel && (
+                <div
+                  class={`rounded-full px-3 py-1 text-sm font-medium ${
+                    riskLevel === 'low'
+                      ? 'bg-blue-100 text-blue-800 dark:bg-blue-900/50 dark:text-blue-300'
+                      : riskLevel === 'high'
+                        ? 'bg-red-100 text-red-800 dark:bg-red-900/50 dark:text-red-300'
+                        : 'bg-orange-100 text-orange-800 dark:bg-orange-900/50 dark:text-orange-300'
+                  }`}
+                >
+                  {riskLevel === 'low' ? '低风险' : riskLevel === 'high' ? '高风险' : '中风险'}
+                </div>
+              )
+            }
+          </div>
+        </div>
+      </div>
+
+      <!-- Breadcrumb Navigation -->
+      <nav class="text-muted-foreground flex items-center gap-2 text-sm">
+        <a href="/stock" class="hover:text-blue-600">股票分析</a>
+        {
+          breadcrumbCategories.map((cat, index) => (
+            <>
+              <Icon name="ri:arrow-right-s-line" class="h-4 w-4" />
+              <a href={cat.link} class="hover:text-blue-600">
+                {cat.name}
+              </a>
+            </>
+          ))
+        }
+        <Icon name="ri:arrow-right-s-line" class="h-4 w-4" />
+        <span class="text-gray-900 dark:text-gray-100">{title}</span>
+      </nav>
+
+      <article class="prose dark:prose-invert max-w-none">
+        <CustomContent>
+          <Content />
+        </CustomContent>
+      </article>
+
+      <!-- Tags -->
+      {
+        tags?.length > 0 && (
+          <div class="mt-8 flex flex-wrap gap-2">
+            {tags.map((tag) => (
+              <a
+                href={`/stock/tags/${tag.replace(/\//g, '-')}`}
+                class="rounded-full bg-blue-100 px-3 py-1 text-sm text-blue-700 hover:bg-blue-200 dark:bg-blue-900/50 dark:text-blue-300 dark:hover:bg-blue-900/70"
+              >
+                #{tag}
+              </a>
+            ))}
+          </div>
+        )
+      }
+    </div>
+  </TwoColumnLayout>
+</Layout>

@@ -1,0 +1,31 @@
+---
+import ButtonLink from '@components/control/ButtonLink.astro';
+import HomeSider from '@components/layout/HomeSider.astro';
+import PostList from '@components/post/PostList.astro';
+import Cover from '@components/ui/cover/Cover.astro';
+import { HomeSiderType } from '@constants/enum';
+import { seoConfig } from '@constants/site-config';
+import Layout from '@layouts/Layout.astro';
+import TwoColumnLayout from '@layouts/TwoColumnLayout.astro';
+import { getSortedStocks } from '@lib/content';
+import { Icon } from 'astro-icon/components';
+
+const stockCollections = await getSortedStocks();
+const stocks = stockCollections.slice(0, 10);
+---
+
+<Layout title={`股票分析 | ${seoConfig.title}`}>
+  <TwoColumnLayout>
+    <Cover slot="cover" title="股票分析" description="专业股票分析与投资建议" />
+    <HomeSider slot="sider" />
+    <div class="shadow-box bg-gradient-start tablet:shadow-none flex flex-col gap-4 overflow-hidden p-4 pt-8 md:px-1 md:py-2">
+      <PostList posts={stocks} showPaginator={false} />
+    </div>
+    <div class="flex w-full flex-col items-center">
+      <ButtonLink variant="gradient-shoka" url="/stock/archives" size="lg" label="所有股票分析" className="mt-10 items-center">
+        所有股票分析
+        <Icon name="ri:line-chart-line" />
+      </ButtonLink>
+    </div>
+  </TwoColumnLayout>
+</Layout>

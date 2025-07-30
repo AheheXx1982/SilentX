@@ -2,6 +2,8 @@ import { categoryMap } from '@constants/category';
 import { getCollection, type CollectionEntry } from 'astro:content';
 
 import type { BlogPost } from 'types/blog';
+import type { StockPost } from 'types/stock';
+import type { CryptoPost } from 'types/crypto';
 
 export async function getSortedPosts(): Promise<CollectionEntry<'blog'>[]> {
   const posts = await getCollection('blog');
@@ -223,4 +225,172 @@ export function getParentCategory(category: Category | null, categories: Categor
 export async function getCategoryLink(categories: string[]): Promise<string> {
   if (!categories?.length) return '';
   return '/categories/' + categories.map((c) => categoryMap[c]).join('/');
+}
+
+// ========== Stock Functions ==========
+
+export async function getSortedStocks(): Promise<CollectionEntry<'stock'>[]> {
+  const stocks = await getCollection('stock');
+
+  // 按日期排序
+  const sortedStocks = stocks.sort((a: StockPost, b: StockPost) => {
+    return new Date(b.data.date).getTime() - new Date(a.data.date).getTime();
+  });
+
+  return sortedStocks;
+}
+
+export const getAllStockTags = (stocks: StockPost[]) => {
+  return stocks.reduce<Record<string, number>>((acc, stock) => {
+    const stockTags = stock.data.tags || [];
+    stockTags.forEach((tag: string) => {
+      if (!acc[tag]) {
+        acc[tag] = 0;
+      }
+      acc[tag]++;
+    });
+    return acc;
+  }, {});
+};
+
+export const getStockCount = async () => {
+  const stocks = await getCollection('stock');
+  return stocks?.length ?? 0;
+};
+
+export async function getStockCategoryList(): Promise<{ categories: Category[]; countMap: { [key: string]: number } }> {
+  const allStockPosts = await getCollection('stock');
+  const countMap: { [key: string]: number } = {};
+  const resCategories: Category[] = [];
+
+  // 统计每个分类的直接文章数量
+  for (let i = 0; i < allStockPosts.length; ++i) {
+    const post = allStockPosts[i];
+    const { categories } = post.data;
+    if (!categories?.length) {
+      continue;
+    }
+
+    if (Array.isArray(categories[0]) && categories[0].length) {
+      // categories[0] = ['美股', '科技股']
+      for (let j = 0; j < categories[0].length; ++j) {
+        const name = categories[0][j];
+        countMap[name] = (countMap[name] || 0) + 1;
+        if (j === 0) {
+          addCategoryRecursively(resCategories, [], name);
+        } else {
+          const parentNames = categories[0].slice(0, j);
+          addCategoryRecursively(resCategories, parentNames, name);
+        }
+      }
+    } else {
+      // categories[0] = '美股'
+      const name = categories[0] as string;
+      countMap[name] = (countMap[name] || 0) + 1;
+      addCategoryRecursively(resCategories, [], name);
+    }
+  }
+
+  return { categories: resCategories, countMap };
+}
+
+export async function getStocksByCategory(categoryName: string): Promise<StockPost[]> {
+  const stocks = await getSortedStocks();
+  return stocks.filter((stock) => {
+    const { categories } = stock.data;
+    if (!categories?.length) return false;
+
+    // 处理两种分类格式
+    if (Array.isArray(categories[0])) {
+      // ['美股', '科技股']
+      return categories[0].includes(categoryName);
+    } else {
+      // '美股'
+      return categories[0] === categoryName;
+    }
+  });
+}
+
+// ========== Crypto Functions ==========
+
+export async function getSortedCryptos(): Promise<CollectionEntry<'crypto'>[]> {
+  const cryptos = await getCollection('crypto');
+
+  // 按日期排序
+  const sortedCryptos = cryptos.sort((a: CryptoPost, b: CryptoPost) => {
+    return new Date(b.data.date).getTime() - new Date(a.data.date).getTime();
+  });
+
+  return sortedCryptos;
+}
+
+export const getAllCryptoTags = (cryptos: CryptoPost[]) => {
+  return cryptos.reduce<Record<string, number>>((acc, crypto) => {
+    const cryptoTags = crypto.data.tags || [];
+    cryptoTags.forEach((tag: string) => {
+      if (!acc[tag]) {
+        acc[tag] = 0;
+      }
+      acc[tag]++;
+    });
+    return acc;
+  }, {});
+};
+
+export const getCryptoCount = async () => {
+  const cryptos = await getCollection('crypto');
+  return cryptos?.length ?? 0;
+};
+
+export async function getCryptoCategoryList(): Promise<{ categories: Category[]; countMap: { [key: string]: number } }> {
+  const allCryptoPosts = await getCollection('crypto');
+  const countMap: { [key: string]: number } = {};
+  const resCategories: Category[] = [];
+
+  // 统计每个分类的直接文章数量
+  for (let i = 0; i < allCryptoPosts.length; ++i) {
+    const post = allCryptoPosts[i];
+    const { categories } = post.data;
+    if (!categories?.length) {
+      continue;
+    }
+
+    if (Array.isArray(categories[0]) && categories[0].length) {
+      // categories[0] = ['主流币', 'Layer1']
+      for (let j = 0; j < categories[0].length; ++j) {
+        const name = categories[0][j];
+        countMap[name] = (countMap[name] || 0) + 1;
+        if (j === 0) {
+          addCategoryRecursively(resCategories, [], name);
+        } else {
+          const parentNames = categories[0].slice(0, j);
+          addCategoryRecursively(resCategories, parentNames, name);
+        }
+      }
+    } else {
+      // categories[0] = '主流币'
+      const name = categories[0] as string;
+      countMap[name] = (countMap[name] || 0) + 1;
+      addCategoryRecursively(resCategories, [], name);
+    }
+  }
+
+  return { categories: resCategories, countMap };
+}
+
+export async function getCryptosByCategory(categoryName: string): Promise<CryptoPost[]> {
+  const cryptos = await getSortedCryptos();
+  return cryptos.filter((crypto) => {
+    const { categories } = crypto.data;
+    if (!categories?.length) return false;
+
+    // 处理两种分类格式
+    if (Array.isArray(categories[0])) {
+      // ['主流币', 'Layer1']
+      return categories[0].includes(categoryName);
+    } else {
+      // '主流币'
+      return categories[0] === categoryName;
+    }
+  });
 }

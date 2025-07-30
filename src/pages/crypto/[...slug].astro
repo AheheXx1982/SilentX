@@ -1,0 +1,198 @@
+---
+import HomeSider from '@components/layout/HomeSider.astro';
+import Cover from '@components/ui/cover/Cover.astro';
+import CustomContent from '@components/common/CustomContent.astro';
+import { HomeSiderType } from '@constants/enum';
+import { siteConfig } from '@constants/site-config';
+import Layout from '@layouts/Layout.astro';
+import TwoColumnLayout from '@layouts/TwoColumnLayout.astro';
+import { getCategoryArr, getSortedCryptos, getCategoryLink } from '@lib/content';
+import { parseDate } from '@lib/datetime';
+import { Icon } from 'astro-icon/components';
+
+export async function getStaticPaths() {
+  const cryptoCollections = await getSortedCryptos();
+
+  return cryptoCollections.map((crypto) => {
+    const link = crypto.data?.link ?? crypto.slug;
+    return {
+      params: { slug: link },
+      props: { crypto },
+    };
+  });
+}
+
+const { crypto } = Astro.props;
+const { Content } = await crypto.render();
+const {
+  title,
+  description,
+  categories = [],
+  tags = [],
+  date,
+  symbol,
+  price,
+  analysis,
+  riskLevel,
+  marketCap,
+  volume24h,
+} = crypto?.data ?? {};
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: title,
+  description: description || crypto.body?.slice(0, 100),
+  keywords: categories?.length ? tags.concat(categories[0]) : tags,
+  author: {
+    '@type': 'Person',
+    name: siteConfig.author ?? siteConfig.name,
+    url: Astro.site,
+  },
+  datePublished: parseDate(date, 'YYYY-MM-DD'),
+};
+
+const categoryArr = getCategoryArr(categories?.[0]);
+const categoryStr = categoryArr?.length ? ` | ${categoryArr.join(' / ')}` : '';
+
+// Generate breadcrumb data for categories
+const breadcrumbCategories = [];
+if (categoryArr?.length) {
+  for (let i = 0; i < categoryArr.length; i++) {
+    const partialCategories = categoryArr.slice(0, i + 1);
+    const link = await getCategoryLink(partialCategories);
+    breadcrumbCategories.push({
+      name: partialCategories[i],
+      link: `/crypto/categories${link}`,
+    });
+  }
+}
+
+// Format numbers for display
+const formatNumber = (num: number | undefined) => {
+  if (!num) return null;
+  if (num >= 1e9) return `$${(num / 1e9).toFixed(2)}B`;
+  if (num >= 1e6) return `$${(num / 1e6).toFixed(2)}M`;
+  if (num >= 1e3) return `$${(num / 1e3).toFixed(2)}K`;
+  return `$${num.toFixed(2)}`;
+};
+---
+
+<Layout
+  title={`${title}${categoryStr} | ${siteConfig.title}`}
+  description={description || crypto.body?.slice(0, 100)}
+  meta={{
+    keywords: categories?.length ? tags.concat(categories[0]) : tags,
+    image: crypto?.data?.cover,
+    schema: [jsonLd],
+  }}
+>
+  <TwoColumnLayout>
+    <Cover slot="cover" title={title} />
+    <HomeSider slot="sider" type={HomeSiderType.POST} />
+    <div class="bg-gradient-start mx-0 flex w-full flex-col px-6 py-4 md:px-3 md:py-2">
+      <!-- Crypto Info Banner -->
+      <div
+        class="mb-6 rounded-lg bg-gradient-to-r from-purple-50 to-indigo-50 p-4 shadow-sm dark:from-purple-900/20 dark:to-indigo-900/20"
+      >
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-4">
+            <div>
+              <h3 class="text-lg font-semibold text-purple-700 dark:text-purple-300">{symbol}</h3>
+              {price && <p class="text-2xl font-bold text-gray-800 dark:text-gray-200">${price}</p>}
+            </div>
+            {
+              analysis && (
+                <div
+                  class={`rounded-full px-3 py-1 text-sm font-medium ${
+                    analysis === 'buy'
+                      ? 'bg-green-100 text-green-800 dark:bg-green-900/50 dark:text-green-300'
+                      : analysis === 'sell'
+                        ? 'bg-red-100 text-red-800 dark:bg-red-900/50 dark:text-red-300'
+                        : 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/50 dark:text-yellow-300'
+                  }`}
+                >
+                  {analysis === 'buy' ? '买入' : analysis === 'sell' ? '卖出' : '持有'}
+                </div>
+              )
+            }
+            {
+              riskLevel && (
+                <div
+                  class={`rounded-full px-3 py-1 text-sm font-medium ${
+                    riskLevel === 'low'
+                      ? 'bg-blue-100 text-blue-800 dark:bg-blue-900/50 dark:text-blue-300'
+                      : riskLevel === 'high'
+                        ? 'bg-red-100 text-red-800 dark:bg-red-900/50 dark:text-red-300'
+                        : 'bg-orange-100 text-orange-800 dark:bg-orange-900/50 dark:text-orange-300'
+                  }`}
+                >
+                  {riskLevel === 'low' ? '低风险' : riskLevel === 'high' ? '高风险' : '中风险'}
+                </div>
+              )
+            }
+          </div>
+        </div>
+
+        <!-- Additional Crypto Metrics -->
+        {
+          (marketCap || volume24h) && (
+            <div class="mt-3 flex gap-6 text-sm text-gray-600 dark:text-gray-400">
+              {marketCap && (
+                <div>
+                  <span class="font-medium">市值: </span>
+                  <span>{formatNumber(marketCap)}</span>
+                </div>
+              )}
+              {volume24h && (
+                <div>
+                  <span class="font-medium">24h交易量: </span>
+                  <span>{formatNumber(volume24h)}</span>
+                </div>
+              )}
+            </div>
+          )
+        }
+      </div>
+
+      <!-- Breadcrumb Navigation -->
+      <nav class="text-muted-foreground flex items-center gap-2 text-sm">
+        <a href="/crypto" class="hover:text-blue-600">加密货币分析</a>
+        {
+          breadcrumbCategories.map((cat, index) => (
+            <>
+              <Icon name="ri:arrow-right-s-line" class="h-4 w-4" />
+              <a href={cat.link} class="hover:text-blue-600">
+                {cat.name}
+              </a>
+            </>
+          ))
+        }
+        <Icon name="ri:arrow-right-s-line" class="h-4 w-4" />
+        <span class="text-gray-900 dark:text-gray-100">{title}</span>
+      </nav>
+
+      <article class="prose dark:prose-invert max-w-none">
+        <CustomContent>
+          <Content />
+        </CustomContent>
+      </article>
+
+      <!-- Tags -->
+      {
+        tags?.length > 0 && (
+          <div class="mt-8 flex flex-wrap gap-2">
+            {tags.map((tag) => (
+              <a
+                href={`/crypto/tags/${tag.replace(/\//g, '-')}`}
+                class="rounded-full bg-purple-100 px-3 py-1 text-sm text-purple-700 hover:bg-purple-200 dark:bg-purple-900/50 dark:text-purple-300 dark:hover:bg-purple-900/70"
+              >
+                #{tag}
+              </a>
+            ))}
+          </div>
+        )
+      }
+    </div>
+  </TwoColumnLayout>
+</Layout>
