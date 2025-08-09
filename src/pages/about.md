@@ -5,19 +5,30 @@ date: 2025-01-03 01:01:33
 description: '关于我？'
 ---
 
-## 你好，这里是余弦
+##欢迎来到猎手的家园
 
-[![github badge](https://img.shields.io/badge/dynamic/json?color=blue&label=Github&query=%24.data.totalSubs&url=https%3A%2F%2Fapi.spencerwoo.com%2Fsubstats%2F%3Fsource%3Dgithub%26queryKey%3Dyusixian)](https://github.com/yusixian)
+##建立本站的初衷##
 
-主攻 React 及其相关生态，最近在不断尝试自己的各种小项目^\_^
+专注于期权 · 加密 · 稳定现金流系统构建。^\_^
 
-- 是余弦(cosine)那个 cos，不是 cosplay 那个 cos
-- 热爱写代码，现在热衷于前端开发，之前也有过不少后端的经验，现在正朝着大前端的方向努力
-- Gitbook 前端学习记录：[前言及目录 - 前端学习记录](https://book.cosine.ren/) 不断完善 ing...
+- 投资理念
+
+以“系统思维 + 低风险策略”为核心理念，长期深耕美股期权与数字货币交易。通过博客、课程、工具、社区等方式，输出可复制的策略框架，帮助普通投资者摆脱情绪交易、建立纪律体系，逐步走向交易自由。
+
+- 本站将分享
+
+实盘策略记录（Covered Call、Cash-Secured Put、Grid 等）
+
+可落地的期权知识系统
+
+美股 + 加密结合的轮动套利逻辑
+
+- 关于我
+
+十余年投资经验，A 股、美股、加密、外汇和黄金都有所涉猎，对于投资颇有些心得，在亏钱方面有很多经验~，我的生活比较简单，佛系，特别宅，帅得不太明显，我也是个表里不如一的人，因为现实中的我沉默寡言，宛如弱智，网络中的我又思维活跃，幽默风趣，也许正如零线与火线交织碰撞才能产生奇妙的火花，很多事情看似荒谬却也十分合理。
+
 - 个人博客
-  - xlog 链上版博客 👉 [https://x.cosine.ren/](https://x.cosine.ren/)
-  - Hexo 博客 👉 [cosine = 余弦の博客 = WA 的一声就哭了](https://ysx.cosine.ren/)
 
-愿热情永存，愿热爱不灭，愿生活无憾
+👉[http://www.silentxx.com/](http://www.silentxx.com)
 
-![https://github.com/yusixian](https://github-readme-stats.vercel.app/api?username=yusixian&count_private=true&theme=dark&show_icons=true)
+真正的猎手，总是擅长蛰伏等待...

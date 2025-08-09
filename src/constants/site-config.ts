@@ -49,17 +49,17 @@ type SocialConfig = {
 
 // https://shoka.lostyu.me/computer-science/note/theme-shoka-doc/config/
 export const siteConfig: SiteConfig = {
-  title: '余弦の博客', // 网站名称
-  alternate: 'cosine', // 网站名称
-  subtitle: 'WA 的一声就哭了', // 副标题
-  name: 'cos',
-  description: '图片迁移完毕，博客待重构~', // 站点简介（一段话）
+  title: '寂静猎手', // 网站名称
+  alternate: 'SilentXx', // 网站名称
+  subtitle: '期权·加密·现金流系统', // 副标题
+  name: 'SilentXx',
+  description: '静若处男，动如野狗~', // 站点简介（一段话）
   avatar: 'https://ysx.cosine.ren/img/avatar.jpg', // 站点头像 logo.png or url
   showLogo: true, // 是否显示 logo 否则用 title
-  author: 'cos', // 作者名称
+  author: 'SilentXx', // 作者名称
 
   enableJSGridCover: false, // 是否启用 color4bg 的背景
-  site: 'https://space.cosine.ren/',
+  site: 'https://www.silentxx.com/',
   featuredCategories: [
     {
       link: 'life',
@@ -198,6 +198,7 @@ export const defaultCoverList = [
   'https://r2.cosine.ren/i/2025/01/05/99231621_p3.webp',
   'https://r2.cosine.ren/i/2025/01/05/99232275_p0.webp',
   'https://r2.cosine.ren/i/2025/01/05/99890559_p0.webp',
+  'https://r2.cosine.ren/i/2025/01/05/100066591_p0.webp',
   'https://r2.cosine.ren/i/2025/01/05/100066591_p0.webp',
   'https://r2.cosine.ren/i/2025/01/05/100105818_p0.webp',
   'https://r2.cosine.ren/i/2025/01/05/100483120_p0.webp',
