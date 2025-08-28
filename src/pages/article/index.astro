@@ -1,0 +1,114 @@
+---
+import { getCollection } from 'astro:content';
+import type { CollectionEntry } from 'astro:content';
+
+export async function getStaticPaths() {
+  const blogPosts = await getCollection('blog');
+
+  // 按日期排序，添加数据验证
+  const sortedPosts = blogPosts?.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf()) ?? [];
+
+  return [
+    {
+      params: {},
+      props: { posts: sortedPosts },
+    },
+  ];
+}
+
+interface Props {
+  posts: CollectionEntry<'blog'>[];
+}
+
+const { posts } = Astro.props;
+---
+
+<div class="articles-page">
+  <h1>所有文章</h1>
+
+  <div class="articles-list">
+    {
+      posts && posts.length > 0 ? (
+        posts.map((post) => (
+          <article class="article-item">
+            <h2>
+              <a href={`/article/${post.slug}`}>{post.data.title}</a>
+            </h2>
+            <time datetime={post.data.date.toISOString()}>{post.data.date.toLocaleDateString()}</time>
+            {post.data.description && <p class="description">{post.data.description}</p>}
+            {post.data.tags && post.data.tags.length > 0 && (
+              <div class="tags">
+                {post.data.tags.map((tag) => (
+                  <span class="tag">{tag}</span>
+                ))}
+              </div>
+            )}
+          </article>
+        ))
+      ) : (
+        <p>暂无文章</p>
+      )
+    }
+  </div>
+</div>
+
+<style>
+  .articles-page {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem;
+  }
+
+  .articles-page h1 {
+    font-size: 2rem;
+    margin-bottom: 2rem;
+    text-align: center;
+  }
+
+  .article-item {
+    padding: 1.5rem 0;
+    border-bottom: 1px solid #eee;
+  }
+
+  .article-item:last-child {
+    border-bottom: none;
+  }
+
+  .article-item h2 {
+    margin: 0 0 0.5rem 0;
+    font-size: 1.5rem;
+  }
+
+  .article-item h2 a {
+    text-decoration: none;
+    color: #333;
+  }
+
+  .article-item h2 a:hover {
+    color: #0066cc;
+  }
+
+  .article-item time {
+    color: #666;
+    font-size: 0.9rem;
+  }
+
+  .description {
+    margin: 0.5rem 0;
+    color: #555;
+  }
+
+  .tags {
+    margin-top: 0.5rem;
+  }
+
+  .tag {
+    display: inline-block;
+    background: #f0f0f0;
+    padding: 0.2rem 0.5rem;
+    border-radius: 0.2rem;
+    font-size: 0.8rem;
+    margin-right: 0.5rem;
+    color: #666;
+  }
+</style>

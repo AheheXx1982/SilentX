@@ -1,0 +1,60 @@
+---
+import { siteConfig } from '@constants/site-config';
+
+interface Props {
+  since?: number;
+}
+
+const { since = new Date().getFullYear() } = Astro.props;
+const currentYear = new Date().getFullYear();
+const { name: author } = siteConfig;
+---
+
+<footer class="mt-8 border-t border-gray-200 py-6 text-center text-sm text-gray-500 dark:border-gray-700 dark:text-gray-400">
+  <div class="container mx-auto px-4">
+    <div class="flex flex-col items-center justify-center space-y-2">
+      <div class="flex flex-wrap items-center justify-center gap-4">
+        <a
+          href="https://astro.build/"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="hover:text-primary dark:hover:text-primary inline-flex items-center gap-1 text-gray-600 dark:text-gray-400"
+        >
+          <span>Built with Astro</span>
+        </a>
+        <a
+          href="/rss.xml"
+          target="_blank"
+          class="hover:text-primary dark:hover:text-primary inline-flex items-center gap-1 text-gray-600 dark:text-gray-400"
+        >
+          <span>RSS Feed</span>
+        </a>
+        <a
+          href="/sitemap-index.xml"
+          target="_blank"
+          class="hover:text-primary dark:hover:text-primary inline-flex items-center gap-1 text-gray-600 dark:text-gray-400"
+        >
+          <span>Sitemap</span>
+        </a>
+      </div>
+
+      <div class="mt-2">
+        <p>
+          © {since}{since !== currentYear ? `-${currentYear}` : ''}
+          {author}. All rights reserved.
+        </p>
+      </div>
+
+      <div class="mt-1 text-xs">
+        <p>
+          Powered by <a
+            href="https://www.silentxx.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="hover:text-primary dark:hover:text-primary text-gray-600 dark:text-gray-400">SilentXx | 寂静猎手</a
+          >
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>

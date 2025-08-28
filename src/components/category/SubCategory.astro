@@ -1,0 +1,39 @@
+---
+import type { Category } from '@lib/content';
+import CategoryTitle from './CategoryTitle.astro';
+import { getCategoryLink } from '@lib/content';
+
+interface Props {
+  category: Category;
+  parentName: string;
+  countMap: Record<string, number>;
+}
+
+const { category, parentName, countMap } = Astro.props;
+
+const categoryLink = await getCategoryLink([parentName, category.name]);
+const grandChildLinks = await Promise.all(
+  (category.children || []).map(async (grandChild) => {
+    return {
+      grandChild,
+      link: await getCategoryLink([parentName, category.name, grandChild.name]),
+    };
+  }),
+);
+---
+
+<CategoryTitle title={category.name} count={countMap[category.name] ?? 0} href={`/categories/${categoryLink}`} level="h3" />
+{
+  grandChildLinks.length > 0 && (
+    <div class="category-second-level-container flex flex-col">
+      {grandChildLinks.map(({ grandChild, link }) => (
+        <p class="shoka-decoration-circle text-primary hover:text-blue relative px-7.5 py-2 text-base/9">
+          <a href={`/categories/${link}`} class="dashed-border border-b">
+            {grandChild.name}
+          </a>
+          <span class="text-muted-foreground text-sm">({countMap[grandChild.name] ?? 0})</span>
+        </p>
+      ))}
+    </div>
+  )
+}

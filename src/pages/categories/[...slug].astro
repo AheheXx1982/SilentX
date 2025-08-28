@@ -1,0 +1,51 @@
+---
+import CategoryPostList from '@components/category/CategoryPostList.astro';
+import HomeSider from '@components/layout/HomeSider.astro';
+import Cover from '@components/ui/cover/Cover.astro';
+import { seoConfig } from '@constants/site-config';
+import Layout from '@layouts/Layout.astro';
+import TwoColumnLayout from '@layouts/TwoColumnLayout.astro';
+import { getCategoryByLink, getCategoryLinks, getCategoryList } from '@lib/content';
+
+// 获取分类页面
+export async function getStaticPaths() {
+  const { categories } = await getCategoryList();
+  const links = getCategoryLinks(categories, '');
+  return links.map((link) => {
+    const category = getCategoryByLink(categories, link);
+    const slug = link.endsWith('/') ? link.slice(0, -1) : link;
+    return {
+      params: { slug }, // 将链接作为字符串传递
+      props: { category },
+    };
+  });
+}
+
+const { category } = Astro.props;
+const { categories: allCategories, countMap } = await getCategoryList();
+
+// 如果请求的路径不对应任何实际分类，则返回404
+if (!category) {
+  // 特殊处理空slug的情况，这应该显示所有分类
+  if (Astro.params.slug === undefined || Astro.params.slug === '') {
+    // 重定向到分类索引页面
+    return Astro.redirect('/categories');
+  }
+
+  return new Response(null, {
+    status: 404,
+    statusText: 'Not found',
+  });
+}
+
+// 如果是子分类，只展示当前分类的内容
+const displayCategories = category ? [category] : allCategories;
+---
+
+<Layout title={`分类 - ${category?.name} | ${seoConfig.title}`}>
+  <TwoColumnLayout>
+    <Cover slot="cover" title={`分类于"${category?.name}"的文章`} />
+    <HomeSider slot="sider" />
+    <CategoryPostList rootCategory={category} categories={displayCategories} countMap={countMap} />
+  </TwoColumnLayout>
+</Layout>

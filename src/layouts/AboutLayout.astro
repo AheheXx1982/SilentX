@@ -1,0 +1,28 @@
+---
+import HomeSider from '@components/layout/HomeSider.astro';
+import Cover from '@components/ui/cover/Cover.astro';
+import { seoConfig } from '@constants/site-config';
+import Layout from './Layout.astro';
+import TwoColumnLayout from './TwoColumnLayout.astro';
+
+export interface Props {
+  frontmatter: {
+    title: string;
+    description?: string;
+  };
+}
+
+const { frontmatter } = Astro.props;
+---
+
+<Layout title={`${frontmatter.title} | ${seoConfig.title}`}>
+  <TwoColumnLayout>
+    <Cover slot="cover" />
+    <HomeSider slot="sider" />
+    <div class="shadow-box bg-gradient-start mx-0 flex w-full flex-col gap-8 p-4 pt-8 md:px-3 md:py-2">
+      <div class="prose dark:prose-invert tablet:max-w-[calc(100vw-2.5rem)] tablet:w-auto w-[calc(100vw-20rem)] max-w-5xl">
+        <slot />
+      </div>
+    </div>
+  </TwoColumnLayout>
+</Layout>

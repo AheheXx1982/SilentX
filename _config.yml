@@ -1,0 +1,20 @@
+# Hexo Configuration
+## Docs: https://hexo.io/docs/configuration.html
+## Source: https://github.com/hexojs/hexo/
+
+# Category & Tag
+category_map:
+  期权研究院: options
+  期权课程: course
+  策略分析: strategy
+  实盘分享: trading-journal
+    
+  加密实验室: crypto
+  网格策略: grid
+  合约交易: futures
+  加密风向标: crypto-news
+  
+  现金流乌托邦: cashflow-utopia
+  期权卖方策略: option-selling
+  全球高息股轮动: drip
+  税务优化: tax

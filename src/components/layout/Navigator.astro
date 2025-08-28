@@ -1,0 +1,111 @@
+---
+import ButtonLink from '@components/control/ButtonLink.astro';
+import { routers } from '@constants/router';
+import { cn } from '@lib/utils';
+import { Icon } from 'astro-icon/components';
+import DropdownNav from './DropdownNav';
+import ThemeToggle from '@components/theme/ThemeToggle.astro';
+---
+
+<div class="tablet:grow-0 flex grow items-center">
+  <!-- 导航菜单 -->
+  <div class="tablet:hidden flex grow items-center">
+    {
+      routers.map((item) => {
+        if (item.children?.length) {
+          return <DropdownNav client:load item={item} />;
+        }
+        return (
+          <ButtonLink
+            url={item.path}
+            label={item.name}
+            variant="unstyle"
+            className={cn(
+              'relative text-base tracking-wider after:absolute after:bottom-1 after:left-1/2 after:block after:h-0.5 after:w-0 after:-translate-x-1/2 after:transition-all after:duration-300',
+              {
+                'hover:after:w-9/12': true,
+                'after:w-9/12': item.path === Astro.url.pathname,
+              },
+            )}
+          >
+            {item.icon && <Icon name={item.icon} class="mr-1.5" />}
+            {item.name}
+          </ButtonLink>
+        );
+      })
+    }
+  </div>
+
+  <div class="tablet:gap-2 ml-auto flex items-center gap-4">
+    <a class="cursor-pointer" href="https://github.com/AheheXx1982/SilentX" target="_blank">
+      <Icon name="ri:github-fill" class="size-9 transition duration-300 hover:scale-125" onclick="backToTop()" />
+    </a>
+    <ThemeToggle />
+  </div>
+</div>
+
+<script is:inline>
+  let firstScroll = true;
+  let triggerDistance = window.innerHeight * 0.45;
+  let lastScrollY = 0;
+
+  const handleScroll = () => {
+    const siteHeader = document.getElementById('site-header');
+    const mobileMenuContainer = document.getElementById('mobile-menu-container');
+    const currentScrollY = window.scrollY;
+    const isBeyond = currentScrollY > triggerDistance;
+
+    if (siteHeader) {
+      if (isBeyond) {
+        siteHeader.classList.add('with-background');
+      } else {
+        siteHeader.classList.remove('with-background');
+      }
+    }
+
+    if (firstScroll) {
+      firstScroll = false;
+      return;
+    }
+
+    if (currentScrollY > 0) {
+      if (currentScrollY > lastScrollY) {
+        // 向下滚动
+        if (siteHeader) siteHeader.classList.add('-translate-y-full');
+        if (mobileMenuContainer) mobileMenuContainer.classList.add('-translate-y-full');
+      } else {
+        // 向上滚动
+        if (siteHeader) siteHeader.classList.remove('-translate-y-full');
+        if (mobileMenuContainer) mobileMenuContainer.classList.remove('-translate-y-full');
+      }
+    }
+    lastScrollY = currentScrollY;
+  };
+
+  // 节流函数
+  function throttle(func, limit) {
+    let lastFunc;
+    let lastRan;
+    return function () {
+      const context = this;
+      const args = arguments;
+      if (!lastRan) {
+        func.apply(context, args);
+        lastRan = Date.now();
+      } else {
+        clearTimeout(lastFunc);
+        lastFunc = setTimeout(
+          function () {
+            if (Date.now() - lastRan >= limit) {
+              func.apply(context, args);
+              lastRan = Date.now();
+            }
+          },
+          limit - (Date.now() - lastRan),
+        );
+      }
+    };
+  }
+
+  window.addEventListener('scroll', throttle(handleScroll, 80), { passive: true });
+</script>

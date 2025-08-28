@@ -1,0 +1,86 @@
+---
+import { categoryMap } from '@constants/category';
+import { getPostsByCategory, getPostsByCategoryPath, type Category } from '@lib/content';
+import SubCategory from './SubCategory.astro';
+import { cn } from '@lib/utils';
+import { parseDate } from '@lib/datetime';
+import { routeBuilder } from '@lib/route';
+import { Routes } from '@constants/router';
+import type { BlogPost } from 'types/blog';
+
+interface Props {
+  categories: Category[];
+  countMap: Record<string, number>;
+  // category page
+  rootCategory: Category | null;
+}
+
+const { categories, countMap, rootCategory } = Astro.props;
+
+// 构建分类路径
+let posts: BlogPost[] = [];
+if (rootCategory) {
+  // 获取到分类的完整路径
+  let categoryPath = [rootCategory.name];
+  let current = rootCategory;
+
+  // 构建完整的分类路径
+  while (current && current.children?.length) {
+    // 对于子分类，我们需要获取其父级信息，但这里我们只根据当前分类获取文章
+    break;
+  }
+
+  // 如果是嵌套分类，使用路径查找文章
+  posts = await getPostsByCategoryPath(categoryPath);
+
+  // 如果没有找到文章，尝试使用简单的分类名称查找
+  if (posts.length === 0) {
+    posts = await getPostsByCategory(rootCategory.name);
+  }
+} else {
+  posts = [];
+}
+---
+
+<div class="shadow-box bg-gradient-start mx-0 flex w-full flex-col px-6 py-4 md:px-3 md:py-2">
+  <h2
+    class={cn('shoka-decoration-circle px-7.5 group relative py-5 text-2xl/9 font-bold', {
+      'has-children': posts?.length || rootCategory?.children?.length,
+    })}
+  >
+    <a href="/" class="dashed-border text-muted-foreground hover:text-blue border-b"> 首页 </a>
+    <span class="text-muted-foreground mx-2 text-xl">/</span>
+    <span class="text-muted-foreground">{rootCategory?.name}</span>
+    <span class="text-muted-foreground mx-2 text-xl">分类</span>
+  </h2>
+
+  <div class="flex w-full flex-col">
+    {
+      categories.map(
+        (category) =>
+          category?.children?.length && (
+            <div class="category-first-level-container flex flex-col">
+              {category?.children?.length &&
+                category.children.map((child) => (
+                  <SubCategory category={child} parentName={category.name} countMap={countMap} />
+                ))}
+            </div>
+          ),
+      )
+    }
+    {
+      posts?.length && (
+        <div class="category-second-level-container flex flex-col">
+          {posts.map((post) => (
+            <p class="shoka-decoration-circle group text-primary hover:text-blue relative px-7.5 py-2 text-base/9">
+              <span class="text-muted-foreground mr-2 text-xs">{parseDate(post?.data?.date, 'YY-MM-DD')}</span>
+              <a href={routeBuilder(Routes.Post, post as BlogPost)} class="dashed-border">
+                {post?.data?.title}
+              </a>
+            </p>
+          ))}
+        </div>
+      )
+    }
+  </div>
+</div>

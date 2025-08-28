@@ -1,0 +1,149 @@
+---
+import HomeSider from '@components/layout/HomeSider.astro';
+import Cover from '@components/ui/cover/Cover.astro';
+import CustomContent from '@components/common/CustomContent.astro';
+import { HomeSiderType } from '@constants/enum';
+import { siteConfig } from '@constants/site-config';
+import Layout from '@layouts/Layout.astro';
+import TwoColumnLayout from '@layouts/TwoColumnLayout.astro';
+import { getCategoryArr, getSortedPosts, getCategoryLink } from '@lib/content';
+import { parseDate } from '@lib/datetime';
+import { Icon } from 'astro-icon/components';
+
+export async function getStaticPaths() {
+  const postCollections = await getSortedPosts();
+
+  // 确保 postCollections 存在且为数组
+  if (!postCollections || !Array.isArray(postCollections)) {
+    return [];
+  }
+
+  const paths = [];
+  for (const post of postCollections) {
+    // 确保 post 和 post.slug 存在
+    let slug: string;
+    if (post?.slug) {
+      if (typeof post.slug === 'string') {
+        slug = post.slug;
+      } else {
+        // 安全地处理数组情况，避免类型错误
+        try {
+          // 使用类型断言来解决TypeScript类型问题
+          const slugArray = post.slug as string[] | unknown[];
+          slug = Array.isArray(slugArray) ? slugArray.join('/') : String(post.slug);
+        } catch (e) {
+          slug = 'untitled';
+        }
+      }
+    } else {
+      slug = 'untitled';
+    }
+
+    // 使用自定义链接或slug作为文章标识符，而不是完整路径
+    let link: string;
+    if (post.data?.link) {
+      link = post.data.link;
+    } else if (typeof slug === 'string') {
+      const parts = slug.split('/');
+      link = parts.pop() || slug;
+    } else {
+      link = 'untitled';
+    }
+
+    // 确保link是字符串类型
+    const finalLink = typeof link === 'string' ? link : String(link);
+
+    paths.push({
+      params: { slug: finalLink },
+      props: { post },
+    });
+  }
+
+  return paths;
+}
+
+// 确保 Astro.props 存在
+const { post } = Astro.props || {};
+// 确保 post 存在
+if (!post) {
+  throw new Error('未找到文章内容');
+}
+
+const { Content } = await post.render();
+const { title, description, categories = [], tags = [], date } = post?.data ?? {};
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BlogPosting',
+  headline: title,
+  description: description || (post.body ? post.body.slice(0, 100) : ''),
+  keywords: categories?.length ? tags.concat(categories[0]) : tags,
+  author: {
+    '@type': 'Person',
+    name: siteConfig.author ?? siteConfig.name,
+    url: Astro.site?.href ?? '',
+  },
+  datePublished: parseDate(date, 'YYYY-MM-DD'),
+};
+
+const categoryArr = getCategoryArr(categories?.[0]);
+const categoryStr = categoryArr?.length ? ` | ${categoryArr.join(' / ')}` : '';
+
+// Generate breadcrumb data for categories
+const breadcrumbCategories = [];
+if (categoryArr?.length) {
+  for (let i = 0; i < categoryArr.length; i++) {
+    const partialCategories = categoryArr.slice(0, i + 1);
+    const link = await getCategoryLink(partialCategories);
+    breadcrumbCategories.push({
+      name: categoryArr[i],
+      link: `/categories/${link}`,
+    });
+  }
+}
+---
+
+<Layout
+  title={`${post.data.title}${categoryStr} | ${siteConfig.title}`}
+  description={description}
+  siderType={HomeSiderType.POST}
+>
+  <script is:inline slot="head" type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+  <TwoColumnLayout>
+    <Cover slot="cover" data={post} />
+    <HomeSider slot="sider" type={HomeSiderType.POST} />
+    <div class="shadow-box bg-gradient-start flex flex-col gap-2 p-4 pt-6 md:px-5 md:py-4">
+      <!-- Breadcrumb Navigation -->
+      <nav class="text-muted-foreground flex items-center gap-2 text-sm">
+        <div class="flex items-center gap-1">
+          <!-- Home Icon and Link -->
+          <Icon name="fa6-solid:house-chimney" class="h-4 w-4" />
+          <a href="/" aria-label="返回首页">
+            <span class="hover:text-blue transition-colors duration-300">首页</span>
+          </a>
+        </div>
+        <!-- Category Breadcrumbs -->
+        {
+          breadcrumbCategories && breadcrumbCategories.length > 0
+            ? breadcrumbCategories.map((category, index) => (
+                <>
+                  <Icon name="ri:arrow-right-s-line" class="text-muted-foreground/60 h-4 w-4" />
+                  <a
+                    href={category.link || '#'}
+                    class={`hover:text-blue transition-colors duration-300 ${index === breadcrumbCategories.length - 1 ? 'text-primary bg-primary/10 hover:text-primary hover:bg-primary/20 rounded-full px-2.5 py-1' : ''}`}
+                    aria-label={`前往${category.name}分类`}
+                  >
+                    {category.name}
+                  </a>
+                </>
+              ))
+            : null
+        }
+      </nav>
+      <article
+        class="prose md:prose-sm dark:prose-invert tablet:max-w-[calc(100vw-2.5rem)] tablet:w-auto w-[calc(100vw-20rem)] max-w-5xl"
+      >
+        <CustomContent Content={Content} />
+      </article>
+    </div>
+  </TwoColumnLayout>
+</Layout>
