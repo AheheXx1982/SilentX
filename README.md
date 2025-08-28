@@ -1,4 +1,3 @@
-<a name="top"></a>
 # 🚀 SilentX / 寂静猎手
 
 _Modern Static Site Generator with Component Architecture_  
@@ -15,22 +14,27 @@ _基于 Astro 的现代化静态站点生成器，集成先进的组件架构_
 
 ---
 
----
-
 ## 📖 项目前言 / Project Overview
 
 初见此主题，便深深爱上，多亏了自己这双近视又老花的双重慧眼，只是由于作者更新慢（后续还会不会继续更新也不得而知），而本人技术水平又实在有限，几经折腾，终于也算有了一点小小成果，至少自己用起来是没多大问题了，并且我在原主题的基础上进行小范围的修改，以完善和增强系统性能，创新精神粗略估算已经达到 5 颗星水平~
 
-Upon first encountering this theme, I instantly fell in love with it—thanks to my double blessing of nearsightedness and presbyopia, which somehow sharpened my discernment. However, the author updates slowly (and whether it will continue is unknown), and my technical skills are quite limited. After numerous trials and errors, I finally achieved a modest result: at least it works well for my own use. Moreover, I made small modifications on top of the original theme to improve and enhance system performance. Roughly estimating, my level of innovation could be rated five stars. ⭐⭐⭐⭐⭐
+Upon first encountering this theme, I instantly fell in love with it—thanks to my double blessing of nearsightedness and
+presbyopia, which somehow sharpened my discernment. However, the author updates slowly (and whether it will continue is
+unknown), and my technical skills are quite limited. After numerous trials and errors, I finally achieved a modest result: at
+least it works well for my own use. Moreover, I made small modifications on top of the original theme to improve and enhance
+system performance. Roughly estimating, my level of innovation could be rated five stars. ⭐⭐⭐⭐⭐
 
 感谢原作者和余弦的贡献与指导，也感谢勤劳又学习意志超强的自己，坦白讲，半个月前我还不懂怎么使用 GitHub 和 VS Code.
 
 I am grateful to the original author and to Cosine for their contributions and guidance, and also to my own hardworking and
 strong-willed self. Honestly, half a month ago, I didn't even know how to use GitHub or VS Code.
 
-特别感谢 ChatGPT、Gemini、通义灵码以及它的外国小表弟 Qoder，在我的亲情关怀与悉心指导下，它们相互配合，最终完成了卓有成效的工作，也让我的智商从 250 瞬间飙升至 250+，实现了我多年以来当一名程序员的梦想，这种感觉恰似某年某月某日单身几十年后的我又与初恋不期而遇一般，纯洁而美好~
+特别感谢 ChatGPT、Gemini，通义灵码以及他的外国小表弟 Qoder，在我的亲情关怀与悉心指导下，它们相互配合，最终完成了卓有成效的工作，也让我的智商从 250 瞬间飙升至 250+，实现了我多年以来当一名程序员的梦想，这种感觉恰似某年某月某日单身几十年后的我又与初恋不期而遇一般，纯洁而美好~
 
-Special thanks to ChatGPT, Gemini, Tongyi Lingma, and its little sibling Qoder. Under my careful attention and guidance, they cooperated seamlessly to produce highly effective results, and, in the process, my IQ skyrocketed from 250 to 250+, fulfilling my long-standing dream of becoming a programmer. This feeling is akin to unexpectedly meeting my first love after decades of being single—pure and beautiful.
+Special thanks to ChatGPT, Gemini, Tongyi Lingma, and its little sibling Qoder. Under my careful attention and guidance, they
+cooperated seamlessly to produce highly effective results, and, in the process, my IQ skyrocketed from 250 to 250+, fulfilling
+my long-standing dream of becoming a programmer. This feeling is akin to unexpectedly meeting my first love after decades of
+being single—pure and beautiful.
 
 ---
 
@@ -148,9 +152,9 @@ pnpm preview
 
 ## 📝 内容管理 / Content Management
 
-新文章放在 [src/content/blog/](src/content/blog/) 目录下:
+新文章放在 [src/content/blog/](src/content/blog/):
 
-````
+```plain
 ---
 title: '文章标题 / Title'
 description: '文章描述 / Description'
@@ -168,13 +172,15 @@ tags: ['标签 1 / Tag1', '标签 2 / Tag2']
 
 ## 📈 更新日志 / Changelog
 
-🎯 最新版本 / Latest: v2.1.0 (2025-08-24)
+🎯 最新版本 / Latest: v0.0.1 (2025-08-29)
 
-✅ shadcn/ui 完整集成 / Modern UI Component integration
+✨ **全新发布** / **Initial Release**
 
-✅ 响应式导航系统 / Responsive navigation system
-
-✅ 短链接优化 / SEO friendly URLs
+✅ Astro 5.13.2 核心框架 / Astro 5.13.2 Core Framework
+✅ shadcn/ui 现代化组件库 / Modern UI Component Library
+✅ 响应式设计 / Responsive Design
+✅ SEO 优化 / SEO Optimization
+✅ 404 页面外星人主题 / Alien-themed 404 Page
 
 [📋 查看完整更新历史 → CHANGELOG.md](CHANGELOG.md)
 
@@ -184,8 +190,8 @@ tags: ['标签 1 / Tag1', '标签 2 / Tag2']
 
 ### 核心灵感 / Inspiration
 
-- 师傅👩🏻[余弦の博客](https://space.cosine.ren/)
-- 太师傅🧔🏻‍♀️ [Hexo Shoka](https://github.com/amehime/hexo-theme-shoka)
+- [师傅👩🏻余弦の博客](https://space.cosine.ren/)
+- [太师傅🧔🏻‍♀️Hexo Shoka](https://github.com/amehime/hexo-theme-shoka)
 
 ### 技术支持 / Tech Support
 
@@ -200,8 +206,7 @@ tags: ['标签 1 / Tag1', '标签 2 / Tag2']
 - [通义灵码](https://tongyi.aliyun.com/lingma)
 - [Gemini](https://gemini.google.com/)
 
-让我们一起构建更好的技术社区！  
-Let's build a better tech community together!
+让我们一起构建更好的技术社区！ / Let's build a better tech community together!
 
 [🔝 Back to Top](#top)
 
