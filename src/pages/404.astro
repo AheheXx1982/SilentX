@@ -1,0 +1,232 @@
+---
+import HomeSider from '@components/layout/HomeSider.astro';
+import Cover from '@components/ui/cover/Cover.astro';
+import { siteConfig } from '@constants/site-config';
+import Layout from '@layouts/Layout.astro';
+import TwoColumnLayout from '@layouts/TwoColumnLayout.astro';
+import { Icon } from 'astro-icon/components';
+import StarryBackground from '../components/StarryBackground.astro';
+
+---
+
+<Layout title={`页面未找到 | ${siteConfig.title}`}>
+  <TwoColumnLayout>
+    <Cover slot="cover" title="页面未找到" />
+    <HomeSider slot="sider" />
+    <div class="shadow-box bg-gradient-start flex flex-col items-center justify-center gap-6 p-4 md:p-8 relative overflow-hidden">
+      <!-- 星空背景 -->
+      <StarryBackground class="absolute inset-0 z-0" />
+      
+      <!-- 装饰性元素 -->
+      <div class="relative w-full max-w-5xl">
+        <!-- 背景装饰球 -->
+        <div class="absolute -top-20 -left-20 h-64 w-64 rounded-full bg-blue-500/15 blur-3xl animate-pulse"></div>
+        <div class="absolute -bottom-20 -right-20 h-64 w-64 rounded-full bg-purple-500/15 blur-3xl animate-pulse" style="animation-delay: 1s"></div>
+        <div class="absolute top-1/4 left-1/3 h-40 w-40 rounded-full bg-pink-500/10 blur-2xl animate-pulse" style="animation-delay: 2s"></div>
+        <div class="absolute bottom-1/4 right-1/3 h-40 w-40 rounded-full bg-yellow-500/10 blur-2xl animate-pulse" style="animation-delay: 0.5s"></div>
+        
+        <!-- 主要内容 -->
+        <div class="relative z-10 text-center bg-card/40 backdrop-blur-sm rounded-3xl border border-white/20 p-8 md:p-12 shadow-2xl hover:shadow-2xl transition-all duration-500 group">
+          <!-- 404图片 -->
+          <div class="mb-8 flex justify-center">
+            <img id="alien-abduction-img" src="/img/404.webp" alt="页面被外星人抓走" class="w-full max-w-md rounded-xl shadow-lg transition-transform duration-300" />
+          </div>
+          
+          <!-- 404数字动画 -->
+          <div class="flex justify-center gap-8 mb-10">
+            <div class="relative">
+              <div class="absolute inset-0 rounded-full bg-primary/30 blur-xl animate-ping" style="animation-duration: 2s;"></div>
+              <div class="text-8xl md:text-9xl font-bold text-primary relative animate-bounce" style="animation-delay: 0.1s; animation-duration: 2s;">4</div>
+            </div>
+            <div class="relative">
+              <div class="absolute inset-0 rounded-full bg-primary/30 blur-xl animate-ping" style="animation-delay: 0.3s; animation-duration: 2s;"></div>
+              <div class="text-8xl md:text-9xl font-bold text-primary relative animate-bounce" style="animation-delay: 0.4s; animation-duration: 2s;">0</div>
+            </div>
+            <div class="relative">
+              <div class="absolute inset-0 rounded-full bg-primary/30 blur-xl animate-ping" style="animation-delay: 0.6s; animation-duration: 2s;"></div>
+              <div class="text-8xl md:text-9xl font-bold text-primary relative animate-bounce" style="animation-delay: 0.7s; animation-duration: 2s;">4</div>
+            </div>
+          </div>
+          
+          <h2 class="text-2xl md:text-3xl font-bold text-foreground mb-6 bg-gradient-to-r from-primary via-purple-600 to-pink-500 bg-clip-text text-transparent animate-pulse">
+            此页面已被外星人抓走！
+          </h2>
+          <p class="text-muted-foreground max-w-md mx-auto mb-12 text-lg">
+            看起来你访问的页面被外星人绑架了。别担心，这种情况时有发生。
+          </p>
+          
+          <!-- 卡片式操作选项 -->
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto mb-12">
+            <a href="/" class="group bg-card/60 border border-white/20 rounded-2xl p-6 hover:shadow-xl transition-all hover:-translate-y-2 hover:border-primary/50 backdrop-blur-sm hover:bg-primary/5">
+              <div class="flex flex-col items-center">
+                <div class="p-4 rounded-full bg-primary/10 group-hover:bg-primary/20 transition-colors mb-4 group-hover:rotate-12 transition-transform">
+                  <Icon name="fa6-solid:rocket" class="text-3xl text-primary" />
+                </div>
+                <span class="font-bold text-lg text-foreground group-hover:text-primary transition-colors">返回地球</span>
+                <p class="text-sm text-muted-foreground mt-2">回到安全的首页</p>
+              </div>
+            </a>
+            
+            <a href="/categories" class="group bg-card/60 border border-white/20 rounded-2xl p-6 hover:shadow-xl transition-all hover:-translate-y-2 hover:border-primary/50 backdrop-blur-sm hover:bg-primary/5">
+              <div class="flex flex-col items-center">
+                <div class="p-4 rounded-full bg-primary/10 group-hover:bg-primary/20 transition-colors mb-4 group-hover:rotate-12 transition-transform">
+                  <Icon name="ri:grid-fill" class="text-3xl text-primary" />
+                </div>
+                <span class="font-bold text-lg text-foreground group-hover:text-primary transition-colors">地球分类</span>
+                <p class="text-sm text-muted-foreground mt-2">探索地球内容</p>
+              </div>
+            </a>
+            
+            <a href="/about" class="group bg-card/60 border border-white/20 rounded-2xl p-6 hover:shadow-xl transition-all hover:-translate-y-2 hover:border-primary/50 backdrop-blur-sm hover:bg-primary/5">
+              <div class="flex flex-col items-center">
+                <div class="p-4 rounded-full bg-primary/10 group-hover:bg-primary/20 transition-colors mb-4 group-hover:rotate-12 transition-transform">
+                  <Icon name="ri:aliens-fill" class="text-3xl text-primary" />
+                </div>
+                <span class="font-bold text-lg text-foreground group-hover:text-primary transition-colors">联系站长</span>
+                <p class="text-sm text-muted-foreground mt-2">报告外星人活动</p>
+              </div>
+            </a>
+          </div>
+          
+          <!-- 趣味性文字 -->
+          <div class="text-center text-muted-foreground max-w-2xl mx-auto">
+            <div class="relative mb-6">
+              <div class="absolute inset-0 flex items-center" aria-hidden="true">
+                <div class="w-full border-t border-white/20"></div>
+              </div>
+              <div class="relative flex justify-center">
+                <span class="bg-background px-4 text-sm text-muted-foreground/80">外星人留言</span>
+              </div>
+            </div>
+            
+            <p id="alien-message" class="mb-6 text-lg italic group-hover:text-foreground transition-colors duration-300"></p>
+            <p class="font-medium text-primary group-hover:text-cyan-400 transition-colors duration-300">—— 来自半人马座α星系的问候</p>
+          </div>
+        </div>
+      </div>
+      
+      <!-- 底部装饰 -->
+      <div class="mt-8 flex justify-center">
+        <div class="flex space-x-2">
+          <div class="h-2 w-2 rounded-full bg-primary/40 animate-bounce"></div>
+          <div class="h-2 w-2 rounded-full bg-primary/40 animate-bounce" style="animation-delay: 0.2s;"></div>
+          <div class="h-2 w-2 rounded-full bg-primary/40 animate-bounce" style="animation-delay: 0.4s;"></div>
+        </div>
+      </div>
+    </div>
+  </TwoColumnLayout>
+</Layout>
+
+<style>
+  @keyframes abduction {
+    0% {
+      transform: scale(1) translate(0, 0) rotate(0deg);
+      opacity: 1;
+    }
+    20% {
+      transform: scale(0.8) translate(50px, -50px) rotate(10deg);
+      opacity: 0.8;
+    }
+    40% {
+      transform: scale(0.6) translate(100px, -100px) rotate(20deg);
+      opacity: 0.6;
+    }
+    60% {
+      transform: scale(0.3) translate(200px, -200px) rotate(30deg);
+      opacity: 0.3;
+    }
+    80% {
+      transform: scale(0.1) translate(250px, -250px) rotate(40deg);
+      opacity: 0.1;
+    }
+    100% {
+      transform: scale(0) translate(300px, -300px) rotate(45deg);
+      opacity: 0;
+    }
+  }
+  
+  @keyframes reappear {
+    0% {
+      transform: scale(0) translate(0, 0) rotate(0deg);
+      opacity: 0;
+    }
+    100% {
+      transform: scale(1) translate(0, 0) rotate(0deg);
+      opacity: 1;
+    }
+  }
+  
+  .abduction-animation {
+    animation: abduction 3s ease-in-out forwards;
+  }
+  
+  .reappear-animation {
+    animation: reappear 2s ease-in-out forwards;
+  }
+</style>
+
+<script>
+  const messages = [
+    "地球人，你们的页面我们带回去研究了。放心，我们会尽快送回来的！",
+    "咕噜咕噜~ 这个页面的味道不错，我先尝尝！",
+    "滴滴滴~ 来自外星的信号：页面已被传送到母舰！",
+    "报告长官，已成功捕获一个地球页面，正在分析中...",
+    "哔哔哔~ 页面能量不足，需要充电500年！",
+    "外星人提示：此页面可能被黑洞吞噬，正在打捞中...",
+    "传送门已开启，页面正在星际旅行中，请耐心等待！",
+    "警告！警告！页面已被外星科技感染，正在清除病毒...",
+    "检测到地球信号，准备进行友好访问...页面带回做纪念！",
+    "外星美食家：这个页面看起来很好吃的样子，先收藏了！",
+    "外星快递员：您的页面正在派送途中，请耐心等待...",
+    "星际导航系统显示：页面已偏离航线，正在重新定位...",
+    "外星考古学家：这个页面具有重要的考古价值，需要深入研究！",
+    "宇宙信号干扰：页面被外星信号干扰，正在解码中...",
+    "外星工程师：页面结构不稳定，正在进行修复..."
+  ];
+
+  // 图片被抓走的动画
+  function startAbductionAnimation() {
+    const imgElement = document.getElementById('alien-abduction-img');
+    if (!imgElement) return;
+    
+    imgElement.classList.remove('reappear-animation');
+    imgElement.classList.add('abduction-animation');
+    
+    // 动画结束后等待更长时间再重新出现，体现被偷走、找不到的意境
+    setTimeout(() => {
+      const img = document.getElementById('alien-abduction-img');
+      if (!img) return;
+      img.classList.remove('abduction-animation');
+      img.classList.add('reappear-animation');
+      
+      // 重新出现后，设置下一次被抓走的时间
+      setTimeout(startAbductionAnimation, 10000);
+    }, 5000);
+  }
+  
+  function getRandomMessage() {
+    const randomIndex = Math.floor(Math.random() * messages.length);
+    return messages[randomIndex];
+  }
+  
+  function updateMessage() {
+    const messageElement = document.getElementById('alien-message');
+    if (!messageElement) return;
+    const message = getRandomMessage();
+    if (messageElement) {
+      messageElement.textContent = `"${message}"`;
+    }
+  }
+  
+  // 页面加载完成后开始动画
+  document.addEventListener('DOMContentLoaded', () => {
+    // 初始显示一条消息
+    updateMessage();
+    
+    // 每5秒切换一次消息
+    setInterval(updateMessage, 5000);
+    
+    // 5秒后开始第一次动画
+    setTimeout(startAbductionAnimation, 5000);
+  });
+</script>

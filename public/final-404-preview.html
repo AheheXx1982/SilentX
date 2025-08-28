@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404页面预览</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(to bottom, #0f0c29, #302b63, #24243e);
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow-x: hidden;
+            position: relative;
+        }
+        
+        /* 星空背景 */
+        .stars {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+        
+        .star {
+            position: absolute;
+            background-color: white;
+            border-radius: 50%;
+            animation: twinkle var(--duration, 2s) infinite ease-in-out;
+        }
+        
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.2; }
+            50% { opacity: 1; }
+        }
+        
+        .shooting-star {
+            position: absolute;
+            top: 20%;
+            right: -100px;
+            width: 100px;
+            height: 2px;
+            background: linear-gradient(to left, rgba(255,255,255,0), rgba(255,255,255,1));
+            transform: rotate(-30deg);
+            animation: shoot 3s linear infinite;
+            animation-delay: var(--delay, 0s);
+        }
+        
+        @keyframes shoot {
+            0% { transform: translateX(0) translateY(0) rotate(-30deg); opacity: 0; }
+            10% { opacity: 1; }
+            100% { transform: translateX(-100vw) translateY(50vh) rotate(-30deg); opacity: 0; }
+        }
+        
+        /* 装饰性元素 */
+        .decorative-balls {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+        
+        .ball {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(60px);
+            opacity: 0.15;
+            animation: pulse 4s infinite ease-in-out;
+        }
+        
+        .ball-1 {
+            width: 256px;
+            height: 256px;
+            background: #3b82f6;
+            top: -80px;
+            left: -80px;
+            animation-delay: 0s;
+        }
+        
+        .ball-2 {
+            width: 256px;
+            height: 256px;
+            background: #8b5cf6;
+            bottom: -80px;
+            right: -80px;
+            animation-delay: 1s;
+        }
+        
+        .ball-3 {
+            width: 160px;
+            height: 160px;
+            background: #ec4899;
+            top: 25%;
+            left: 33%;
+            animation-delay: 2s;
+        }
+        
+        .ball-4 {
+            width: 160px;
+            height: 160px;
+            background: #f59e0b;
+            bottom: 25%;
+            right: 33%;
+            animation-delay: 0.5s;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.15; }
+            50% { transform: scale(1.1); opacity: 0.2; }
+        }
+        
+        /* 主要内容容器 */
+        .container {
+            position: relative;
+            z-index: 10;
+            width: 100%;
+            max-width: 1024px;
+            padding: 1rem;
+        }
+        
+        .content {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 1.5rem;
+            padding: 2rem;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+            text-align: center;
+        }
+        
+        /* 404图片 */
+        .image-container {
+            margin: 2rem auto;
+            max-width: 500px;
+        }
+        
+        .image-container img {
+            width: 100%;
+            height: auto;
+            border-radius: 1rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease;
+        }
+        
+        .image-container img:hover {
+            transform: scale(1.02);
+        }
+        
+        /* 404数字动画 */
+        .numbers {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+        
+        .number {
+            position: relative;
+            font-size: 6rem;
+            font-weight: bold;
+            color: #3b82f6;
+        }
+        
+        .number::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 50%;
+            background: rgba(59, 130, 246, 0.2);
+            filter: blur(20px);
+            animation: ping 2s infinite;
+            animation-delay: var(--delay, 0s);
+        }
+        
+        .number-inner {
+            position: relative;
+            animation: bounce 2s infinite;
+            animation-delay: var(--delay-inner, 0s);
+        }
+        
+        @keyframes ping {
+            0% { transform: scale(1); opacity: 1; }
+            75%, 100% { transform: scale(1.5); opacity: 0; }
+        }
+        
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+        
+        /* 标题 */
+        h1 {
+            font-size: 2.5rem;
+            margin: 1rem 0 3rem;
+            background: linear-gradient(to right, #3b82f6, #8b5cf6, #ec4899);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: pulse-text 2s infinite;
+        }
+        
+        @keyframes pulse-text {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.8; }
+        }
+        
+        /* 操作卡片 */
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 3rem 0;
+        }
+        
+        .card {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 1rem;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: inherit;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            border-color: rgba(59, 130, 246, 0.3);
+            background: rgba(59, 130, 246, 0.1);
+        }
+        
+        .card-icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: #3b82f6;
+        }
+        
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+        
+        .card:hover .card-title {
+            color: #3b82f6;
+        }
+        
+        .card-description {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.6);
+        }
+        
+        /* 外星人留言 */
+        .message-section {
+            margin: 3rem 0;
+            position: relative;
+        }
+        
+        .divider {
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 50%;
+            height: 1px;
+            background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.1), transparent);
+        }
+        
+        .divider-text {
+            position: relative;
+            background: #0f0c29;
+            padding: 0 1rem;
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.9rem;
+        }
+        
+        .message {
+            margin: 2rem 0;
+            font-size: 1.25rem;
+            font-style: italic;
+            color: rgba(255, 255, 255, 0.8);
+        }
+        
+        .signature {
+            font-weight: bold;
+            color: #3b82f6;
+        }
+        
+        /* 底部装饰 */
+        .dots {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-top: 2rem;
+        }
+        
+        .dot {
+            width: 0.5rem;
+            height: 0.5rem;
+            border-radius: 50%;
+            background: rgba(59, 130, 246, 0.4);
+            animation: bounce-dot 1.5s infinite;
+        }
+        
+        .dot:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+        
+        .dot:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+        
+        @keyframes bounce-dot {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .numbers {
+                gap: 1rem;
+            }
+            
+            .number {
+                font-size: 4rem;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .cards {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        /* 图片被抓走动画 */
+        @keyframes abduction {
+            0% {
+                transform: scale(1) translate(0, 0);
+                opacity: 1;
+            }
+            25% {
+                transform: scale(0.8) translate(50px, -50px);
+                opacity: 0.8;
+            }
+            50% {
+                transform: scale(0.6) translate(100px, -100px);
+                opacity: 0.6;
+            }
+            75% {
+                transform: scale(0.3) translate(200px, -200px);
+                opacity: 0.3;
+            }
+            100% {
+                transform: scale(0) translate(300px, -300px);
+                opacity: 0;
+            }
+        }
+        
+        @keyframes reappear {
+            0% {
+                transform: scale(0) translate(0, 0);
+                opacity: 0;
+            }
+            100% {
+                transform: scale(1) translate(0, 0);
+                opacity: 1;
+            }
+        }
+        
+        .abduction-animation {
+            animation: abduction 3s ease-in-out forwards;
+        }
+        
+        .reappear-animation {
+            animation: reappear 2s ease-in-out forwards;
+        }
+    </style>
+</head>
+<body>
+    <!-- 星空背景 -->
+    <div class="stars" id="stars"></div>
+    
+    <!-- 流星 -->
+    <div class="shooting-star" style="--delay: 0s;"></div>
+    <div class="shooting-star" style="--delay: 2s;"></div>
+    <div class="shooting-star" style="--delay: 4s;"></div>
+    
+    <!-- 装饰性元素 -->
+    <div class="decorative-balls">
+        <div class="ball ball-1"></div>
+        <div class="ball ball-2"></div>
+        <div class="ball ball-3"></div>
+        <div class="ball ball-4"></div>
+    </div>
+    
+    <div class="container">
+        <div class="content">
+            <!-- 404图片 -->
+            <div class="image-container">
+                <img id="alien-abduction-img" src="img/404.webp" alt="页面被外星人抓走">
+            </div>
+            
+            <!-- 404数字动画 -->
+            <div class="numbers">
+                <div class="number" style="--delay: 0s; --delay-inner: 0.1s;">
+                    <div class="number-inner">4</div>
+                </div>
+                <div class="number" style="--delay: 0.3s; --delay-inner: 0.4s;">
+                    <div class="number-inner">0</div>
+                </div>
+                <div class="number" style="--delay: 0.6s; --delay-inner: 0.7s;">
+                    <div class="number-inner">4</div>
+                </div>
+            </div>
+            
+            <!-- 操作卡片 -->
+            <div class="cards">
+                <a href="#" class="card">
+                    <div class="card-icon">🚀</div>
+                    <div class="card-title">返回地球</div>
+                    <div class="card-description">回到安全的首页</div>
+                </a>
+                
+                <a href="#" class="card">
+                    <div class="card-icon">🌐</div>
+                    <div class="card-title">地球分类</div>
+                    <div class="card-description">探索地球内容</div>
+                </a>
+                
+                <a href="#" class="card">
+                    <div class="card-icon">👽</div>
+                    <div class="card-title">联系站长</div>
+                    <div class="card-description">报告外星人活动</div>
+                </a>
+            </div>
+            
+            <!-- 外星人留言 -->
+            <div class="message-section">
+                <div class="divider">
+                    <div class="divider-text">外星人留言</div>
+                </div>
+                
+                <p id="alien-message" class="message"></p>
+                <p class="signature">—— 来自半人马座α星系的问候</p>
+            </div>
+            
+            <!-- 底部装饰 -->
+            <div class="dots">
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 创建星星
+        function createStars() {
+            const starsContainer = document.getElementById('stars');
+            const starCount = 100;
+            
+            for (let i = 0; i < starCount; i++) {
+                const star = document.createElement('div');
+                star.classList.add('star');
+                
+                // 随机位置
+                const x = Math.random() * 100;
+                const y = Math.random() * 100;
+                
+                // 随机大小
+                const size = Math.random() * 3;
+                
+                // 随机动画延迟和持续时间
+                const delay = Math.random() * 5;
+                const duration = 1 + Math.random() * 4;
+                
+                star.style.left = `${x}%`;
+                star.style.top = `${y}%`;
+                star.style.width = `${size}px`;
+                star.style.height = `${size}px`;
+                star.style.animationDelay = `${delay}s`;
+                star.style.setProperty('--duration', `${duration}s`);
+                
+                starsContainer.appendChild(star);
+            }
+        }
+        
+        // 外星人留言数组
+        const messages = [
+            "地球人，你们的页面我们带回去研究了。放心，我们会尽快送回来的！",
+            "咕噜咕噜~ 这个页面的味道不错，我先尝尝！",
+            "滴滴滴~ 来自外星的信号：页面已被传送到母舰！",
+            "报告长官，已成功捕获一个地球页面，正在分析中...",
+            "哔哔哔~ 页面能量不足，需要充电500年！",
+            "外星人提示：此页面可能被黑洞吞噬，正在打捞中...",
+            "传送门已开启，页面正在星际旅行中，请耐心等待！",
+            "警告！警告！页面已被外星科技感染，正在清除病毒...",
+            "检测到地球信号，准备进行友好访问...页面带回做纪念！",
+            "外星美食家：这个页面看起来很好吃的样子，先收藏了！"
+        ];
+
+        function getRandomMessage() {
+            const randomIndex = Math.random() * messages.length | 0;
+            return messages[randomIndex];
+        }
+        
+        function updateMessage() {
+            const messageElement = document.getElementById('alien-message');
+            messageElement.textContent = `"${getRandomMessage()}"`;
+        }
+        
+        // 图片被抓走的动画
+        function startAbductionAnimation() {
+            const imgElement = document.getElementById('alien-abduction-img');
+            imgElement.classList.remove('reappear-animation');
+            imgElement.classList.add('abduction-animation');
+            
+            // 动画结束后重新出现
+            setTimeout(() => {
+                imgElement.classList.remove('abduction-animation');
+                imgElement.classList.add('reappear-animation');
+                
+                // 重新出现后，设置下一次被抓走的时间
+                setTimeout(startAbductionAnimation, 8000);
+            }, 3000);
+        }
+        
+        // 页面加载完成后创建星星和初始化留言
+        document.addEventListener('DOMContentLoaded', function() {
+            createStars();
+            updateMessage();
+            setInterval(updateMessage, 5000);
+            
+            // 5秒后开始第一次动画
+            setTimeout(startAbductionAnimation, 5000);
+        });
+    </script>
+</body>
+</html>
