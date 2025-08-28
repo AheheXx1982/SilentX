@@ -149,7 +149,7 @@ pnpm preview
 
 新文章放在 [src/content/blog/](src/content/blog/) 目录下:
 
-```markdown
+````
 ---
 title: '文章标题 / Title'
 description: '文章描述 / Description'
@@ -183,8 +183,8 @@ tags: ['标签 1 / Tag1', '标签 2 / Tag2']
 
 ### 核心灵感 / Inspiration
 
--师傅👩🏻[余弦の博客](https://space.cosine.ren/)
--太师傅🧔🏻‍♀️ [Hexo Shoka](https://github.com/amehime/hexo-theme-shoka)
+- 师傅👩🏻[余弦の博客](https://space.cosine.ren/)
+- 太师傅🧔🏻‍♀️ [Hexo Shoka](https://github.com/amehime/hexo-theme-shoka)
 
 ### 技术支持 / Tech Support
 
