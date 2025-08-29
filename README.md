@@ -18,15 +18,15 @@ _基于 Astro 的现代化静态站点生成器，集成先进的组件架构_
 
 初见此主题，便深深爱上，多亏了自己这双近视又老花的双重慧眼，只是由于女主人工作太忙无暇更新，而本人技术水平又实在有限，几经折腾，终于也算有了一点小小成果，至少自己用起来是没多大问题了，并且我在原主题的基础上进行了一些必要与非必要的修改，以完善和增强系统性能，创新精神粗略估算已经达到 5 颗星水平~
 
-Upon first encountering this theme, I was instantly captivated by it—thanks to my unique combination of nearsightedness and presbyopia, which somehow sharpened my eye for detail. However, since the original author has been too busy with work to provide regular updates, and given my own limited technical skills, it took me considerable effort to achieve modest improvements. At the very least, it now works well for my personal use. Building upon the original theme, I've made both necessary and unnecessary modifications to enhance system performance. I'd conservatively rate my innovative spirit at a full five-star level~
+Upon first encountering this theme, I was deeply captivated. Thanks to my unique combination of nearsightedness and presbyopia, I developed a keen eye for detail. However, as the original author has been too busy with work to provide regular updates, and given my own limited technical skills, it took considerable effort to achieve modest improvements. At the very least, it now works well for my personal use. Building upon the original theme, I've made both necessary and unnecessary modifications to enhance system performance. I'd conservatively rate my innovative spirit at a full five-star level~
 
-感谢原作者和余弦的贡献与指导，也感谢勤劳又学习意志超强的自己，坦白讲，半个月前我还不懂怎么使用 GitHub 和 VS Code，而我自己的热情也持续未减，有时候为了修改代码，我老人家还特么熬夜到凌晨 4 点多，真可谓是老当益壮，宝刀未老啊~
+感谢原作者和余弦的贡献与指导，也感谢勤劳又学习意志超强的自己，坦白讲，半个月前我还不懂怎么使用 GitHub 和 VS Code，尽管困难重重，但我的热情却从未改变，有时候为了修改代码，我老人家还特么熬夜到凌晨 4 点多，真可谓是老当益壮，宝刀未老啊~
 
-I extend my heartfelt gratitude to the original author and to Cosine for their valuable contributions and guidance. I'm also thankful for my own diligence and unwavering determination to learn. To be honest, just half a month ago, I didn't even know how to use GitHub or VS Code. Yet my enthusiasm has never waned. Sometimes, in my eagerness to modify the code, this old man would stay up until 4 AM—truly proving that age is just a number when it comes to passion and capability!
+I extend my heartfelt gratitude to the original author and to Cosine for their valuable contributions and guidance. I'm also thankful for my own diligence and unwavering determination to learn. To be honest, just half a month ago, I didn't even know how to use GitHub or VS Code. Yet my enthusiasm has never waned. Sometimes, in my eagerness to modify the code, I would stay up until 4 AM—truly proving that age is just a number when it comes to passion and capability!
 
-特别感谢 ChatGPT、Gemini，通义灵码以及他的外国小表弟 Qoder，在我的亲情关怀与悉心指导下，它们相互配合，完成了卓有成效的工作，也让我的智商从 250 瞬间飙升至 250+，实现了我从高级人类到程序猿类的反向进化，也许，这就是所谓返璞归真的精髓之所在~
+特别感谢 ChatGPT、Gemini，通义灵码以及他的外国小表弟 Qoder，在我的亲情关怀与悉心指导下，它们通力配合，完成了卓有成效的工作，也让我的智商从 250 瞬间飙升至 250+，实现了从高级人类到程序猿类的反向进化，也许，这就是所谓“返璞归真”的内涵本质~
 
-Special thanks to ChatGPT, Gemini, Tongyi Lingma, and its international cousin Qoder. Under my affectionate care and meticulous guidance, they collaborated seamlessly to accomplish highly effective work. This collaboration even boosted my IQ from 250 to 250+ in an instant, fulfilling my reverse evolution from an advanced human to a programming primate. Perhaps this is the essence of returning to simplicity and authenticity~
+Special thanks to ChatGPT, Gemini, Tongyi Lingma, and its international cousin Qoder. With my affectionate care and meticulous guidance, they collaborated seamlessly to accomplish highly effective work. This collaboration even boosted my IQ from 250 to 250+ in an instant, fulfilling my reverse evolution from an advanced human to a programming primate. Perhaps this is the essence of returning to simplicity and authenticity~
 
 ---
 
