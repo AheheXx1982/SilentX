@@ -16,25 +16,17 @@ _基于 Astro 的现代化静态站点生成器，集成先进的组件架构_
 
 ## 📖 项目前言 / Project Overview
 
-初见此主题，便深深爱上，多亏了自己这双近视又老花的双重慧眼，只是由于作者更新慢（后续还会不会继续更新也不得而知），而本人技术水平又实在有限，几经折腾，终于也算有了一点小小成果，至少自己用起来是没多大问题了，并且我在原主题的基础上进行小范围的修改，以完善和增强系统性能，创新精神粗略估算已经达到 5 颗星水平~
+初见此主题，便深深爱上，多亏了自己这双近视又老花的双重慧眼，只是由于女主人工作太忙无暇更新，而本人技术水平又实在有限，几经折腾，终于也算有了一点小小成果，至少自己用起来是没多大问题了，并且我在原主题的基础上进行了一些必要与非必要的修改，以完善和增强系统性能，创新精神粗略估算已经达到 5 颗星水平~
 
-Upon first encountering this theme, I instantly fell in love with it—thanks to my double blessing of nearsightedness and
-presbyopia, which somehow sharpened my discernment. However, the author updates slowly (and whether it will continue is
-unknown), and my technical skills are quite limited. After numerous trials and errors, I finally achieved a modest result: at
-least it works well for my own use. Moreover, I made small modifications on top of the original theme to improve and enhance
-system performance. Roughly estimating, my level of innovation could be rated five stars. ⭐⭐⭐⭐⭐
+Upon first encountering this theme, I was instantly captivated by it—thanks to my unique combination of nearsightedness and presbyopia, which somehow sharpened my eye for detail. However, since the original author has been too busy with work to provide regular updates, and given my own limited technical skills, it took me considerable effort to achieve modest improvements. At the very least, it now works well for my personal use. Building upon the original theme, I've made both necessary and unnecessary modifications to enhance system performance. I'd conservatively rate my innovative spirit at a full five-star level~
 
-感谢原作者和余弦的贡献与指导，也感谢勤劳又学习意志超强的自己，坦白讲，半个月前我还不懂怎么使用 GitHub 和 VS Code.
+感谢原作者和余弦的贡献与指导，也感谢勤劳又学习意志超强的自己，坦白讲，半个月前我还不懂怎么使用 GitHub 和 VS Code，而我自己的热情也持续未减，有时候为了修改代码，我老人家还特么熬夜到凌晨 4 点多，真可谓是老当益壮，宝刀未老啊~
 
-I am grateful to the original author and to Cosine for their contributions and guidance, and also to my own hardworking and
-strong-willed self. Honestly, half a month ago, I didn't even know how to use GitHub or VS Code.
+I extend my heartfelt gratitude to the original author and to Cosine for their valuable contributions and guidance. I'm also thankful for my own diligence and unwavering determination to learn. To be honest, just half a month ago, I didn't even know how to use GitHub or VS Code. Yet my enthusiasm has never waned. Sometimes, in my eagerness to modify the code, this old man would stay up until 4 AM—truly proving that age is just a number when it comes to passion and capability!
 
-特别感谢 ChatGPT、Gemini，通义灵码以及他的外国小表弟 Qoder，在我的亲情关怀与悉心指导下，它们相互配合，最终完成了卓有成效的工作，也让我的智商从 250 瞬间飙升至 250+，实现了我多年以来当一名程序员的梦想，这种感觉恰似某年某月某日单身几十年后的我又与初恋不期而遇一般，纯洁而美好~
+特别感谢 ChatGPT、Gemini，通义灵码以及他的外国小表弟 Qoder，在我的亲情关怀与悉心指导下，它们相互配合，完成了卓有成效的工作，也让我的智商从 250 瞬间飙升至 250+，实现了我从高级人类到程序猿类的反向进化，也许，这就是所谓返璞归真的精髓之所在~
 
-Special thanks to ChatGPT, Gemini, Tongyi Lingma, and its little sibling Qoder. Under my careful attention and guidance, they
-cooperated seamlessly to produce highly effective results, and, in the process, my IQ skyrocketed from 250 to 250+, fulfilling
-my long-standing dream of becoming a programmer. This feeling is akin to unexpectedly meeting my first love after decades of
-being single—pure and beautiful.
+Special thanks to ChatGPT, Gemini, Tongyi Lingma, and its international cousin Qoder. Under my affectionate care and meticulous guidance, they collaborated seamlessly to accomplish highly effective work. This collaboration even boosted my IQ from 250 to 250+ in an instant, fulfilling my reverse evolution from an advanced human to a programming primate. Perhaps this is the essence of returning to simplicity and authenticity~
 
 ---
 
