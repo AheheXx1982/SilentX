@@ -10,48 +10,80 @@ const currentYear = new Date().getFullYear();
 const { name: author } = siteConfig;
 ---
 
-<footer class="mt-8 border-t border-gray-200 py-6 text-center text-sm text-gray-500 dark:border-gray-700 dark:text-gray-400">
+<footer
+  class="mt-8 border-t border-gray-200 py-6 text-center text-sm text-gray-500 dark:border-gray-700 dark:text-gray-400"
+  role="contentinfo"
+  aria-label="网站页脚"
+>
   <div class="container mx-auto px-4">
-    <div class="flex flex-col items-center justify-center space-y-2">
-      <div class="flex flex-wrap items-center justify-center gap-4">
-        <a
-          href="https://astro.build/"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="hover:text-primary dark:hover:text-primary inline-flex items-center gap-1 text-gray-600 dark:text-gray-400"
-        >
-          <span>Built with Astro</span>
-        </a>
-        <a
-          href="/rss.xml"
-          target="_blank"
-          class="hover:text-primary dark:hover:text-primary inline-flex items-center gap-1 text-gray-600 dark:text-gray-400"
-        >
-          <span>RSS Feed</span>
-        </a>
-        <a
-          href="/sitemap-index.xml"
-          target="_blank"
-          class="hover:text-primary dark:hover:text-primary inline-flex items-center gap-1 text-gray-600 dark:text-gray-400"
-        >
-          <span>Sitemap</span>
-        </a>
-      </div>
-
-      <div class="mt-2">
+    <div class="flex flex-col items-center justify-center space-y-3">
+      <!-- 第一行：版权信息 -->
+      <div class="text-gray-500 dark:text-gray-400">
         <p>
-          © {since}{since !== currentYear ? `-${currentYear}` : ''}
-          {author}. All rights reserved.
-        </p>
-      </div>
-
-      <div class="mt-1 text-xs">
-        <p>
-          Powered by <a
+          © 2025 <a
             href="https://www.silentxx.com"
             target="_blank"
             rel="noopener noreferrer"
-            class="hover:text-primary dark:hover:text-primary text-gray-600 dark:text-gray-400">SilentXx | 寂静猎手</a
+            class="hover:text-primary dark:hover:text-primary focus:ring-primary/20 rounded text-gray-600 transition-colors focus:ring-2 focus:outline-none dark:text-gray-400"
+            aria-label="访问SilentXx官网（在新窗口打开）">SilentXx｜寂静猎手</a
+          >. All rights reserved.
+        </p>
+      </div>
+
+      <!-- 第二行：RSS、Sitemap、统计 -->
+      <div class="flex flex-wrap items-center justify-center gap-4">
+        <a
+          href="/rss.xml"
+          target="_blank"
+          class="hover:text-primary dark:hover:text-primary focus:ring-primary/20 inline-flex items-center gap-1 rounded text-gray-600 transition-colors focus:ring-2 focus:outline-none dark:text-gray-400"
+          aria-label="订阅RSS源（在新窗口打开）"
+        >
+          <span>订阅RSS</span>
+        </a>
+        <span class="text-gray-400 dark:text-gray-600">|</span>
+        <a
+          href="/sitemap-index.xml"
+          target="_blank"
+          class="hover:text-primary dark:hover:text-primary focus:ring-primary/20 inline-flex items-center gap-1 rounded text-gray-600 transition-colors focus:ring-2 focus:outline-none dark:text-gray-400"
+          aria-label="查看网站地图（在新窗口打开）"
+        >
+          <span>Sitemap</span>
+        </a>
+        <span class="text-gray-400 dark:text-gray-600">|</span>
+        <a
+          href="https://cloud.umami.is/share/CZenOoFWBuXrxOnG/silentxx.com"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="hover:text-primary dark:hover:text-primary focus:ring-primary/20 inline-flex items-center gap-1 rounded text-gray-600 transition-colors focus:ring-2 focus:outline-none dark:text-gray-400"
+          aria-label="查看网站统计（在新窗口打开）"
+        >
+          <span>网站统计</span>
+        </a>
+      </div>
+
+      <!-- 第三行：技术栈信息 -->
+      <div class="text-xs text-gray-500 dark:text-gray-400">
+        <p class="flex items-center justify-center gap-2">
+          <svg
+            class="h-3 w-3 text-yellow-500"
+            fill="currentColor"
+            viewBox="0 0 24 24"
+            style="animation: spin 3s linear infinite;"
+          >
+            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
+          </svg>
+          基于 <a
+            href="https://astro.build/"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="hover:text-primary dark:hover:text-primary focus:ring-primary/20 rounded text-gray-600 transition-colors focus:ring-2 focus:outline-none dark:text-gray-400"
+            aria-label="访问Astro官网（在新窗口打开）">Astro</a
+          > & Theme » <a
+            href="https://github.com/AheheXx1982/SilentX"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="hover:text-primary dark:hover:text-primary focus:ring-primary/20 rounded text-gray-600 transition-colors focus:ring-2 focus:outline-none dark:text-gray-400"
+            aria-label="访问SilentX主题GitHub仓库（在新窗口打开）">SilentX</a
           >
         </p>
       </div>
