@@ -146,12 +146,12 @@ export const socialConfig: SocialConfig = {
   // },
   Tiger: {
     url: 'https://tigr.link/s/30BPgOQ',
-    icon: 'ri:bilibili-fill',
+    icon: 'ri:stock-line', // 使用股票线性图标替代Bilibili图标
     color: '#da708a',
   },
   music: {
     url: 'https://music.douyin.com/qishui/share/playlist?playlist_id=7310550250141696009',
-    icon: 'ri:netease-cloud-music-line',
+    icon: 'ri:music-2-line', // 使用通用音乐线性图标替代网易云音乐图标
     color: '#e60026',
   },
   email: {
