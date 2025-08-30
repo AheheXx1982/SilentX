@@ -105,6 +105,12 @@ export const siteConfig: SiteConfig = {
       description: '加密货币研究、交易策略和市场分析',
     },
     {
+      link: 'crypto/crypto-wiki',
+      label: '加密百科',
+      image: '/img/crypto/crypto1.webp',
+      description: '加密货币百科全书',
+    },
+    {
       link: 'cashflow-utopia/option-selling',
       label: '期权卖方策略',
       image: '/img/options/options5.webp',

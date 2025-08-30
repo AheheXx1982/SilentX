@@ -11,14 +11,20 @@ import { getCategoryByLink, getCategoryLinks, getCategoryList } from '@lib/conte
 export async function getStaticPaths() {
   const { categories } = await getCategoryList();
   const links = getCategoryLinks(categories, '');
-  return links.map((link) => {
-    const category = getCategoryByLink(categories, link);
-    const slug = link.endsWith('/') ? link.slice(0, -1) : link;
-    return {
-      params: { slug }, // 将链接作为字符串传递
-      props: { category },
-    };
-  });
+  return links
+    .map((link) => {
+      // 添加检查确保 link 不是 undefined
+      if (!link) return;
+
+      const category = getCategoryByLink(categories, link);
+      // 确保 link 是字符串后再调用 endsWith 方法
+      const slug = typeof link === 'string' && link.endsWith('/') ? link.slice(0, -1) : link;
+      return {
+        params: { slug }, // 将链接作为字符串传递
+        props: { category },
+      };
+    })
+    .filter(Boolean); // 过滤掉 undefined 值
 }
 
 const { category } = Astro.props;
