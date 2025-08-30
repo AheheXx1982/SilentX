@@ -144,6 +144,11 @@ export function getCategoryLinks(categories?: Category[], parentLink?: string): 
   const res: string[] = [];
   categories.forEach((category: Category) => {
     const link = categoryMap[category.name];
+    // 添加检查确保 link 不是 undefined
+    if (!link) {
+      console.warn(`警告: 分类 "${category.name}" 没有在 _config.yml 中定义映射`);
+      return;
+    }
     const fullLink = parentLink ? `${parentLink}/${link}` : link;
     res.push(fullLink);
     if (category?.children?.length) {
@@ -167,7 +172,8 @@ export function getCategoryNameByLink(link: string): string {
 
 // 获取分类
 export function getCategoryByLink(categories: Category[], link?: string): Category | null {
-  if (!link || !categories?.length) return null;
+  // 添加检查确保 link 是字符串
+  if (!link || typeof link !== 'string' || !categories?.length) return null;
 
   // 将链接分割为部分
   const linkParts = link.split('/').filter((part) => part.length > 0);
